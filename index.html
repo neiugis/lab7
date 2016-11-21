@@ -70,9 +70,188 @@
                     
                         <ul>
                         <li>Copy and paste the html code below to your code editor and save the file as <code>map7.html</code> in your lab folder.</li>
-                        <li>To make your own animation, your may  modify the <span style="color:red; font-weight:bold">red parts</span>. Please read the <span style="color:blue; font-weight:bold">comment lines in blue</span> for explanations. Note I have only included the most relevant explanations here. You are encouranged to visit <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this link</a> to learn more.
+                        <li>To make your own animation, your may  modify the <span style="color:red; font-weight:bold">red parts</span>. Please read the <span style="color:blue; font-weight:bold">comment lines in blue</span> for explanations. Note I have only included the most relevant explanations. You are encouranged to visit <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this link</a> to learn more.
                     
                     <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Leaflet Prop Symbol Map&lt;/title&gt;
+
+    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css"/&gt;
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"&gt;&lt;/script&gt;
+
+    &lt;script src="https://code.jquery.com/jquery-3.1.1.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+    
+&lt;body&gt;   
+    &lt;div id="map" style="height: 650px"&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+        var map = L.map('map').setView([37.8, -96], 4);
+
+        L.tileLayer('https://api.tiles.mapbox.com/v4/&#123;id&#125;/&#123;z&#125;/&#123;x&#125;/&#123;y&#125;.png?access_token=&#123;accessToken&#125;', &#123;
+          attribution: 'Map data &amp;copy; &lt;a href="http://openstreetmap.org"&gt;OpenStreetMap&lt;/a&gt; contributors, &lt;a href="http://creativecommons.org/licenses/by-sa/2.0/"&gt;CC-BY-SA&lt;/a&gt;, Imagery &amp;copy; &lt;a href="http://mapbox.com"&gt;Mapbox&lt;/a&gt;',
+          id: 'mapbox.light',
+          accessToken: '<span style="color: red; font-weight:bold">Your Access Token</span>'  
+        &#125;).addTo(map);
+
+        <span style="color: blue">// load the timeseries data</span>
+        <span style="color: blue">// change the file name to yours</span>
+        $.getJSON("<span style="color: red; font-weight:bold">city.json</span>")
+        .done(function(data) &#123;
+            var info = processData(data);
+            createPropSymbols(info.timestamps, data);
+            createSliderUI(info.timestamps);
+        &#125;);
+
+        <span style="color: blue">// process the data to derive values that will be used later, for example,</span>
+        <span style="color: blue">// the timestamp names (i.e., the name of each column) for use in the time slider labels, and </span>
+        <span style="color: blue">// the minimum/maximum values across the time series for use in a map legend (extra credit question)</span>
+        <span style="color: blue">// no need to change anything for this lab</span>
+        function processData(data) &#123;
+            var timestamps = [];
+            var	min = Infinity;
+            var	max = -Infinity;
+
+            for (var feature in data.features) &#123;
+                var properties = data.features[feature].properties;
+
+                for (var attribute in properties) &#123;
+                    if ( attribute != 'id' &amp;&amp;
+                         attribute != 'name' &amp;&amp;
+                         attribute != 'lat' &amp;&amp;
+                         attribute != 'lon' )
+                    &#123;
+                        if ( $.inArray(attribute,timestamps) ===  -1) &#123;
+                            timestamps.push(attribute);
+                        &#125;
+                        if (properties[attribute] &lt; min) &#123;
+                            min = properties[attribute];
+                        &#125;
+                        if (properties[attribute] &gt; max) &#123;
+                            max = properties[attribute];
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+            return &#123;
+                timestamps : timestamps,
+                min : min,
+                max : max
+            &#125;
+        &#125;  
+
+        <span style="color: blue">// draw the proportional symbols</span>
+        function createPropSymbols(timestamps, data) &#123;
+            
+            cities = L.geoJson(data, &#123;
+
+                pointToLayer: function(feature, latlng) &#123;
+
+                    return L.circleMarker(latlng, &#123;
+                        fillColor: '<span style="color:#cc6600; font-weight:bold">#501e65</span>',  <span style="color: blue">// fill color of the circles</span>
+                        color: '<span style="color:#cc6600; font-weight:bold">#311e39</span>',      <span style="color: blue">// border color of the circles</span>
+                        weight: <span style="color:#cc6600; font-weight:bold">2</span>,             <span style="color: blue">// circle line weight in pixels</span>
+                        fillOpacity: <span style="color:#cc6600; font-weight:bold">0.6</span>       <span style="color: blue">// fill opacity (0-1)</span>
+                    &#125;).on(&#123;
+
+                        mouseover: function(e) &#123;
+                            this.openPopup();
+                            this.setStyle(&#123;fillColor: '<span style="color:#cc6600; font-weight:bold">green</span>'&#125;);  <span style="color: blue">// change fill color to green when mouseover a circle</span>
+                        &#125;,
+                        mouseout: function(e) &#123;
+                            this.closePopup();
+                            this.setStyle(&#123;fillColor: '<span style="color:#cc6600; font-weight:bold">#501e65</span>'&#125;);  <span style="color: blue">// change fill color back to original color when mouseout a circle</span>
+                        &#125;
+                    &#125;);
+                &#125;
+            &#125;).addTo(map);
+
+            updatePropSymbols(timestamps[0]);
+
+        &#125; 
+
+        <span style="color: blue">// resize each circle according to a value in the time series</span>
+        function updatePropSymbols(timestamp) &#123;
+
+            cities.eachLayer(function(layer) &#123;
+
+                var props = layer.feature.properties;
+                var	radius = calcPropRadius(props[timestamp]);
+                
+                <span style="color: blue">// pop-up information (when mouseover) for each city is also defined here</span>
+                var	popupContent = "&lt;b&gt;" + <span style="color:#cc6600; font-weight:bold">timestamp</span> + ' population: ' + <span style="color:#cc6600; font-weight:bold">String(props[timestamp])</span> + "&lt;/b&gt;&lt;br&gt;" +
+                                   "&lt;i&gt;" + props.<span style="color:#cc6600; font-weight:bold">name</span> + "&lt;/i&gt; " ;
+
+                layer.setRadius(radius);
+                layer.bindPopup(popupContent, &#123; offset: new L.Point(0,-radius) &#125;);
+            &#125;);
+        &#125; 
+
+        <span style="color: blue">// calculate the radius of the proportional symbols based on area</span>
+        function calcPropRadius(attributeValue) &#123;
+
+            var scaleFactor = <span style="color:#cc6600; font-weight:bold">0.002</span>,   <span style="color: blue">// the scale factor is used to scale the values</span>
+                                       <span style="color: blue">// the units of the radius are in meters </span>
+                                       <span style="color: blue">// determine the scale factor based on the value range and the mapping scale</span>
+                area = attributeValue * scaleFactor;
+
+            return Math.sqrt(area/Math.PI);
+        &#125; 
+
+        <span style="color: blue">// add the temporal slider, no need to change anything for this lab</span>
+        <span style="color: blue">// here we use the HTML5 range type to create a simple slider</span>
+        function createSliderUI(timestamps) &#123;
+
+            var sliderControl = L.control(&#123; position: '<span style="color:#cc6600">bottomleft</span>'&#125; ); <span style="color: blue">// position of the slider</span>
+
+            sliderControl.onAdd = function(map) &#123;
+
+                var slider = L.DomUtil.create("input", "range-slider");
+
+                L.DomEvent.addListener(slider, 'mousedown', function(e) &#123;
+
+                    L.DomEvent.stopPropagation(e);
+
+                &#125;);
+
+                $(slider)
+                    .attr(&#123;'type':'range', 'max': timestamps[timestamps.length-1], 'min':timestamps[0], 'step': 10,'value': String(timestamps[0])&#125;)
+                    .on('input change', function() &#123;
+                        updatePropSymbols($(this).val().toString());
+                        $(".temporal-legend").text(this.value);
+                    &#125;);
+
+                return slider;
+            &#125;
+
+            sliderControl.addTo(map);
+            createTemporalLegend(timestamps[0]);
+        &#125; 
+
+        <span style="color: blue">// add labels for the temporal slider, no need to change anything for this lab</span>
+        function createTemporalLegend(startTimestamp) &#123;
+
+            var temporalLegend = L.control(&#123; position: '<span style="color:#cc6600">bottomleft</span>' &#125;); <span style="color: blue">// same position as the slider</span>
+
+            temporalLegend.onAdd = function(map) &#123;
+
+                var output = L.DomUtil.create("output", "temporal-legend");
+
+                return output;
+            &#125;
+
+            temporalLegend.addTo(map);
+            $(".temporal-legend").text(startTimestamp);
+        &#125;	
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
 </pre>
 </li> </ul>
 
