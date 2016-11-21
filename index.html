@@ -52,26 +52,26 @@
                         <p style="color:red"><b><i class="fa fa-spinner fa-spin"></i>  Due: 11:59 pm, Friday, 12/2</b></p>
 
                       <h3><i class="fa fa-paint-brush"></i> Prepare Time Series Data</h3>
-                    <p>The first step for the spatiotemporal visualization is to create a time series dataset. For this lab, we'll map <b>population dynamics of fifteen major U.S. cities since 1950 at 10-year intervals</b> (You are free to use other spatiotemporal datasets if you prefer). Below is an example of what the data should look like (a <b>.csv</b> file): </p>  
+                    <p>The first step for the spatiotemporal visualization is to create a time series dataset. For this lab, we'll map <b>population dynamics of fifteen major U.S. cities</b> (You are free to use other spatiotemporal datasets if you prefer). Below is an example of what the data should look like (a <b>.csv</b> file): </p>
                     <center><img src="img/table.png" width=85%></center>
                     <ul>
                         <li>Click <a href="https://drive.google.com/file/d/0BzvZaHCgmEmNTTVBRnZyQjRtVnM/view?usp=sharing" target="_blank" style="font-weight:bold">here</a> to download the csv file. Spend some time to make sure you understand the data structure (you will need to modify the data for answering Question 2).</li>
-                        <li>In your web browser, go to <a href="http://geojson.io" target="_blank">geojson.io</a>, select <b>Open - File</b> (see image below) to open the csv file you have just created. </li><br>
+                        <li>In your web browser, go to <a href="http://geojson.io" target="_blank">geojson.io</a>, select <b>Open - File</b> (see image below) to open the csv file you have just downloaded. </li><br>
                         <center><img src="img/open.png" width=95%></center>
                         <li>The data, <i>i.e., 15 cities</i>, should have been loaded as points/markers.</li>
                         <li>Next, click <b>Save - GeoJSON</b> to save the data as a geojson file.</li><br>
                         <center><img src="img/sve.png" width=95%></center>
-                        <li>The last step is to <b>CHANGE THE FILE EXTENSION</b> of map.geojson from .geojson to <b><CODE>.json</CODE></b> (The file, i.e., something like map.geojson, should be found in the Downloads folder). If you are not sure, you may open the geojson file in Atom and then choose Save As to save the file as map.json. Then, move the <code>map.json</code> file to your lab folder.</li>
-                        
+                        <li>The last step is to <b>CHANGE THE FILE EXTENSION</b> of map.geojson from .geojson to <b><CODE>.json</CODE></b> (The map.geojson should be found in the Downloads folder). If you are not sure how to change file extension, you may open the geojson file in Atom and then choose Save As to save the file as map.json. Then, move the <code>map.json</code> file to your lab folder.</li>
+
                     </ul>
 
                     <h3><i class="fa fa-paint-brush"></i> The HTML</h3>
                     <p>Now, it's time to create the html file. Again, I have attached below the entire html document. </p>
-                    
+
                         <ul>
                         <li>Copy and paste the html code below to your code editor and save the file as <code>map7.html</code> in your lab folder.</li>
                         <li>To make your own animation, your may  modify the <span style="color:red; font-weight:bold">red parts</span>. Please read the <span style="color:blue; font-weight:bold">comment lines in blue</span> for explanations. Note I have only included the most relevant explanations. You are encouranged to visit <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this link</a> to learn more.
-                    
+
                     <pre>
 &lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
@@ -85,8 +85,8 @@
     &lt;script src="https://code.jquery.com/jquery-3.1.1.min.js"&gt;&lt;/script&gt;
     &lt;script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"&gt;&lt;/script&gt;
 &lt;/head&gt;
-    
-&lt;body&gt;   
+
+&lt;body&gt;
     &lt;div id="map" style="height: 650px"&gt;&lt;/div&gt;
 
     &lt;script&gt;
@@ -95,7 +95,7 @@
         L.tileLayer('https://api.tiles.mapbox.com/v4/&#123;id&#125;/&#123;z&#125;/&#123;x&#125;/&#123;y&#125;.png?access_token=&#123;accessToken&#125;', &#123;
           attribution: 'Map data &amp;copy; &lt;a href="http://openstreetmap.org"&gt;OpenStreetMap&lt;/a&gt; contributors, &lt;a href="http://creativecommons.org/licenses/by-sa/2.0/"&gt;CC-BY-SA&lt;/a&gt;, Imagery &amp;copy; &lt;a href="http://mapbox.com"&gt;Mapbox&lt;/a&gt;',
           id: 'mapbox.light',
-          accessToken: '<span style="color: red; font-weight:bold">Your Access Token</span>'  
+          accessToken: '<span style="color: red; font-weight:bold">Your Access Token</span>'
         &#125;).addTo(map);
 
         <span style="color: blue">// load the timeseries data</span>
@@ -142,11 +142,11 @@
                 min : min,
                 max : max
             &#125;
-        &#125;  
+        &#125;
 
         <span style="color: blue">// draw the proportional symbols</span>
         function createPropSymbols(timestamps, data) &#123;
-            
+
             cities = L.geoJson(data, &#123;
 
                 pointToLayer: function(feature, latlng) &#123;
@@ -172,7 +172,7 @@
 
             updatePropSymbols(timestamps[0]);
 
-        &#125; 
+        &#125;
 
         <span style="color: blue">// resize each circle according to a value in the time series</span>
         function updatePropSymbols(timestamp) &#123;
@@ -181,7 +181,7 @@
 
                 var props = layer.feature.properties;
                 var	radius = calcPropRadius(props[timestamp]);
-                
+
                 <span style="color: blue">// pop-up information (when mouseover) for each city is also defined here</span>
                 var	popupContent = "&lt;b&gt;" + <span style="color:#cc6600; font-weight:bold">timestamp</span> + ' population: ' + <span style="color:#cc6600; font-weight:bold">String(props[timestamp])</span> + "&lt;/b&gt;&lt;br&gt;" +
                                    "&lt;i&gt;" + props.<span style="color:#cc6600; font-weight:bold">name</span> + "&lt;/i&gt; " ;
@@ -189,7 +189,7 @@
                 layer.setRadius(radius);
                 layer.bindPopup(popupContent, &#123; offset: new L.Point(0,-radius) &#125;);
             &#125;);
-        &#125; 
+        &#125;
 
         <span style="color: blue">// calculate the radius of the proportional symbols based on area</span>
         function calcPropRadius(attributeValue) &#123;
@@ -200,7 +200,7 @@
                 area = attributeValue * scaleFactor;
 
             return Math.sqrt(area/Math.PI);
-        &#125; 
+        &#125;
 
         <span style="color: blue">// add the temporal slider, no need to change anything for this lab</span>
         <span style="color: blue">// here we use the HTML5 range type to create a simple slider</span>
@@ -230,7 +230,7 @@
 
             sliderControl.addTo(map);
             createTemporalLegend(timestamps[0]);
-        &#125; 
+        &#125;
 
         <span style="color: blue">// add labels for the temporal slider, no need to change anything for this lab</span>
         function createTemporalLegend(startTimestamp) &#123;
@@ -246,7 +246,7 @@
 
             temporalLegend.addTo(map);
             $(".temporal-legend").text(startTimestamp);
-        &#125;	
+        &#125;
 
 &lt;/script&gt;
 
@@ -257,7 +257,7 @@
 
                 <br>
                 <h2 >Deliverables (<a href="#top" style="font-weight:normal; text-decoration:underline">Back to Top <i class="fa fa-arrow-circle-up faa-float animated" aria-hidden="true"></i></a>)</h2>
-                
+
                 <ul id="hw">
                   <li><b>Question 1:</b> Submit BOTH the <code><b>json</b></code> file AND the <code><b>html</b></code> file you have just created by following along the instructions (9 pts).</li>
                   <li><b>Question 2:</b> Edit the original csv file in MS Excel to add <b>1940 population data</b> for all the 15 cities. For simplicity, you can use <a href ="https://en.wikipedia.org/wiki/1940_United_States_Census">the 1940 Census Wikipedia page</a> to find out the population count for each city. You will need to <b>insert the column before (to the left of) the 1950 data</b> in the table. Then create a json file with the name <code><b>pop40.json</b></code>. Submit the json file (6 pts). </li>
