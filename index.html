@@ -56,8 +56,8 @@
                   <p><a id="overview" title="Overview" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Overview</h3>
                   <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet and <a href="https://www.w3schools.com/jquery/jquery_intro.asp" target="_blank">JQuery</a> (another JS library). This lab exercise is modified from <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
-                    <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with a similar structure to create a time series proportional symbol map. I am always happy to explain in more details if you are interested in learning the syntax.</p>
-                    <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. And you will need to apply some of the data processing skills introduced in Lab 6, <i>e.g., table join, polygon centroid,</i> to the put the deliverable data together.</p>
+                    <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with similar structure to create a time series proportional symbol map. I am always happy to explain in more details if you are interested in learning the syntax.</p>
+                    <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. And you will need to apply some of the data processing skills introduced in Lab 6, <i>e.g., table join, polygon centroid,</i> to put the deliverable data together.</p>
                     <h3 >IMPORTANT: Please use <span style="color: red">Firefox</span> to test the results!</h3>
 
                     <p>*********************************************************************************</p>
@@ -70,7 +70,7 @@
 
                     <ul>
                         <li>Click <a href="https://drive.google.com/file/d/0BzvZaHCgmEmNTTVBRnZyQjRtVnM/view?usp=sharing" target="_blank" style="font-weight:bold">here</a> to download the example data. Spend some time to make sure you understand the data structure.
-                            <br>For the deliverables, you will create a time series tabular data of Zika outbreak in the U.S. from separate provided data files. Note <b>the time stamp columns should be placed in chronological order</b>. </li>
+                            <br>For the deliverables, you will create a time series tabular data of Zika outbreak in the U.S. from separate provided data files. Note <b>the timestamp columns should be placed in chronological order</b>. </li>
                         <li>In the previous lab, we introduced how to display csv table with coordinate information as points in QGIS. We are introducing an online tool this time, which may come in handy when other GIS processing (e.g., table join, simplify geometry) is not required. </li>
                             <li>In your web browser, go to <a href="http://geojson.io" target="_blank">geojson.io</a>, select <b>Open - File</b> (see image below) to open the csv file you have just downloaded. </li>
                         <center><img src="img/open.png" width=95%></center>
@@ -78,7 +78,7 @@
                         <li>Next, click <b>Save - GeoJSON</b> to save the data as a geojson file.</li>
                         <center><img src="img/sve.png" width=95%></center>
 
-<!--                        <li>Since we will be using a JQuery function to read/parse the data this time, the last step is to <b>CHANGE THE FILE EXTENSION</b> from .geojson to <b><CODE>.json</CODE></b> (NO NEED to add the variable line). If you are not sure how to change file extension, you may open the geojson file in Atom and then choose Save As to save the file as <code>.json</code> file to your lab folder.</li>-->
+                        <li>Since we use a JQuery function to read/parse the data this time, we will keep the .geojson file.</li>
 
                     </ul>
 
@@ -106,7 +106,7 @@ $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
 });</code></pre>
                     The data wouldn't show up on the map at this point as we only loaded the data. We will define how to draw the data in the following steps. </li>
 
-                     <li>We first define a function to process the data to acquire the timestamps (the year columns) and the maximum and minimum population values to be used for creating the legend.
+                     <li>We first define a function to process the data to acquire the timestamps (the year columns) and the maximum and minimum population values to be used for creating the legend (extra credit question).
                          <br>Define the data processing (you may name the function differently) function AFTER the loading data portion:
                 <pre><code class="language-javascript">function processData(data) {
   // First, initialize the variables to hold the timestamps and min/max population values
@@ -126,7 +126,7 @@ $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
                attribute != 'name' &amp;&amp;
                attribute != 'latitude' &amp;&amp;
                attribute != 'longitude' )   // != means NOT EQUAL TO
-                                      // These three columns are NOT recorded
+                                      // These columns are NOT recorded
                                       // Modify this part when mapping your own data
           {
               if ( $.inArray(attribute,timestamps) ===  -1) { // JQuery in.Array() method searches for a specified value within an array and return its index (or -1 if not found)
@@ -145,13 +145,13 @@ $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
           }
       }
   }
-  return {
+  return { // the function finally returns the timestamps array, the min and max of population data
       timestamps : timestamps,
       min : min,
       max : max
   }
 }</code></pre>
-                         Read the comment lines to learn more about what this function does exactly. It looks like a lot going on. <b>But when you map your own data, the only places you need to change are the attribute/column names that are not supposed to be mapped ('id', 'name', 'lat', 'lon' in this case).</b> </li>
+                         Read the comment lines to learn more about what this function does exactly. It looks like a lot going on. <b>But when you map your own data, the only places you need to change are the attribute/column names that are not supposed to be mapped ('id', 'name', 'latitude', 'longitude' in this case).</b> </li>
 
                          <li>Next, add the following functions for drawing proportional symbols (AFTER processing data):
                          <pre><code class="language-javascript">// The function to draw the proportional symbols
@@ -210,16 +210,16 @@ function calcPropRadius(attributeValue) {
   return Math.sqrt(area/Math.PI);  // the function return the radius of the circle to be used in the updatePropSymbols()
 }
 </code></pre>
-                  Again, a lot of things going on here. But you ONLY need to adjust the popup content (as we did before) and the scale factor (depending on the value) for making your own maps. </li>
+                  Again, a lot of things going on here. But you ONLY need to <b>adjust the popup content</b> (as we did before) and <b>the scale factor</b> (depending on the value and map scale) for making your own maps. And of course, <b>customize the colors and styles of the circles</b> as you like.</li>
 
-                <li>Next, we will call the defined functions in the loading data portion to apply them. <b>MODIFY</b> the getJSON function to add the data processing and symbol drawing functions:
+                <li>Next, we will call the defined functions in the loading data portion to apply them. <b>MODIFY</b> the getJSON function to add the data processing and symbol drawing functions we just defined:
                 <pre><code class="language-javascript">$.getJSON("city.geojson")
 .done(function(data) {
     var info = processData(data);
     createPropSymbols(info.timestamps, data);
 });</code></pre></li>
 
-                <li>Your map should be displayed as proportional symbol with the first timestamp's data at this point (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/symbol.html" target="_blank">sample code</a>):</li>
+                <li>Your map should be displayed as proportional symbols with the first timestamp's data at this point (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/symbol.html" target="_blank">sample code</a>):</li>
                 <iframe id="final" src="map/symbol.html" width=98% height=520 frameborder=0></iframe></ul>
 
                   <p><a id="slider" title="Time Slider" class="toc-item"></a></p>
@@ -231,14 +231,20 @@ function calcPropRadius(attributeValue) {
   var sliderControl = L.control({ position: 'bottomleft'} ); // position of the slider
                       // Another use of L.control :)
 
-  sliderControl.onAdd = function(map) {
+  sliderControl.onAdd = function(map) { //initialize a range slider with mousedown control
       var slider = L.DomUtil.create("input", "range-slider");
       L.DomEvent.addListener(slider, 'mousedown', function(e) {
           L.DomEvent.stopPropagation(e);
       });
 
       $(slider)
-          .attr({'type':'range', 'max': timestamps[timestamps.length-1], 'min':timestamps[0], 'step': 10,'value': String(timestamps[0])})
+          .attr({
+            'type':'range',
+            'max': timestamps[timestamps.length-1],
+            'min':timestamps[0],
+            'step': 10, // Change this to match the numeric interval between adjacent timestamps
+            'value': String(timestamps[0])
+          })
           .on('input change', function() {
               updatePropSymbols($(this).val().toString()); // update the map with slider
               $(".temporal-legend").text(this.value); // update the label with slider
@@ -284,6 +290,7 @@ function createTimeLabel(startTimestamp) {
                         </li>
                         <li>Create a time series data table according to the example data (Hint: it might be easier to begin with data from a later time). <ul>
                           <li>Consider using <b>QGIS - Table Join</b> to put the data together. Let's use the <mark>travel associated cases</mark> here, which would be more interesting to map.</li>
+                            <li>Again, <b>the timestamp columns should be placed in chronological order</b></li>
                           <li>Please make sure to <b>assign 0 values</b> when a state does not have a case (you may export the joined table (create CSVT when saving as) and do this in Excel). </li>
                           <li>Also the table doesn't contain coordinate information of the states. Recall how we generated coordinates for counties last time. You may download the state boundary file <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html" target="_blank">here</a>, <i>generate centroids, save in WGS84, calculate lat and lon, then table join the coordinates to the csv..</i> (I know it is a lot but it is also important to review as you will likely need to do this often with real data.)</li>
                           <li>You may find there are a few states/territories with <b>NULL lat/lon (Pennsylvania, American Samoa, and U.S. Virgin Islands)</b>, as the census boundary file doesn't include the unincorporated territories and there was some random characters added to Pennsylvania in the csv file. You may <b>manually input the lat and lon for Pennsylvania and delete American Samoa, and Virgin Islands</b> in your final joined/exported csv before adding it back in QGIS, and save as a GeoJSON file (WGS 84). </li>
