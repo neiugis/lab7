@@ -59,7 +59,7 @@
                     <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments. However, you may use the scripts as a template to map data in a similar structure to create a time series proportional symbol map. I am always happy to explain in more details if you are interested in learning the syntax.</p>
                    
                     <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. </p>
-                    <h3 >IMPORTANT: for this lab, please use <span style="color: red">Firefox</span> to test the proportional symbols!</h3>
+                    <h3 >IMPORTANT: Please use <span style="color: red">Firefox</span> to test the results!</h3>
 
                     <p>*********************************************************************************</p>
 
@@ -169,7 +169,14 @@ function createPropSymbols(timestamps, data) {
               weight: 2,             // circle line weight in pixels
               fillOpacity: 0.5       // fill opacity (0-1)
           }).on({
-
+                mouseover: function(e) {
+                    this.openPopup();
+                    this.setStyle({fillColor: 'green'});  // fill color turns green when mouseover
+                },
+                mouseout: function(e) {
+                    this.closePopup();
+                    this.setStyle({fillColor: '#501e65'});  // fill turns original color when mouseout
+                }
         });
       }
   }).addTo(map);
@@ -187,8 +194,7 @@ function updatePropSymbols(timestamp) {
       var radius = calcPropRadius(props[timestamp]); // circle radius, calculation function defined below
 
       // pop-up information (when mouseover) for each city is also defined here
-      var popupContent = "<b>" + timestamp + ' population: ' + String(props[timestamp]) + "</b><br>" +
-                         "<i>" + props.name + "</i> " ;
+      var popupContent = props.name + ' ' + timestamp + ' population: ' + String(props[timestamp]) ;
 
       layer.setRadius(radius);  // Leaflet method for setting the radius of a circle
       layer.bindPopup(popupContent, { offset: new L.Point(0,-radius) }); // bind the popup content, with an offset
@@ -256,8 +262,18 @@ function createTimeLabel(startTimestamp) {
       return output;
   }
   temporalLegend.addTo(map);
-  $(".temporal-legend").text(startTimestamp); //display the first year by default
-}</code></pre></li></ul>
+  $(".temporal-legend").text(startTimestamp); //display the first timestamp as label by default
+}</code></pre></li>
+                    <li>Then, <b>MODIFY</b> the geoJSON function to add the slider creation functions:
+                <pre><code class="language-javascript">$.getJSON("city.geojson")
+.done(function(data) {
+    var info = processData(data);
+    createPropSymbols(info.timestamps, data);
+    createSliderUI(info.timestamps);
+});</code></pre></li>
+                    <li>The simple slider is added to the map, at your defined position (I used bottom left) (<a href="" target="_blank">sample code</a>):</li>
+                <iframe id="final" src="map/slider.html" width=98% height=520 frameborder=0></iframe></ul>
+
                     
                 
                 
