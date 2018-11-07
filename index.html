@@ -278,19 +278,23 @@ function createTimeLabel(startTimestamp) {
 
                   <p><a id="deliverable" title="Deliverables" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Deliverables</h3>
-                     <p>For the deliverables, we use the Zika outbreak data. Click <a href="https://drive.google.com/open?id=1cVP3j_oUAJU_xkk9yWla1BVimJs6eIIg" target="_blank">here</a> to access the data files. The folder contains 11 csv files with monthly zika case counts at state level, in 2016. Each file only contains states with zika cases at the corresponding timestamp.</p>
+                     <p>For the deliverables, we use the Zika outbreak data. Click <a href="https://drive.google.com/open?id=1cVP3j_oUAJU_xkk9yWla1BVimJs6eIIg" target="_blank">here</a> to access the data files. The folder contains 11 csv files with monthly zika case counts at state level (including the territories), in 2016. Each file only contains states with zika cases at the corresponding timestamp.</p>
 
                     <ul><li>Choose <mark>AT LEAST five files to download</mark> (you could read the timestamp information in the file name).
                         </li>
                         <li>Create a time series data table according to the example data (Hint: it might be easier to begin with data from a later time). <ul>
                           <li>Consider using <b>QGIS - Table Join</b> to put the data together. Let's use the <mark>travel associated cases</mark> here, which would be more interesting to map.</li>
                           <li>Please make sure to <b>assign 0 values</b> when a state does not have a case (you may export the joined table (create CSVT when saving as) and do this in Excel). </li>
-                          <li>Also the table doesn't contain coordinate information of the states. Recall how we generated coordinates for counties last time. You may download the state boundary file <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html" target="_blank">here</a>, generate centroids, then calculate lat and lon, then table join.. (I know it is a lot but it is also important to review as you will likely need to do this often with real data.)</li>
-                          <li>ASK ME if in doubt!</li>
-                        </ul></li>
+                          <li>Also the table doesn't contain coordinate information of the states. Recall how we generated coordinates for counties last time. You may download the state boundary file <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html" target="_blank">here</a>, <i>generate centroids, save in WGS84, calculate lat and lon, then table join the coordinates to the csv..</i> (I know it is a lot but it is also important to review as you will likely need to do this often with real data.)</li>
+                          <li>You may find there are a few states/territories with <b>NULL lat/lon (Pennsylvania, American Samoa, and U.S. Virgin Islands)</b>, as the census boundary file doesn't include the unincorporated territories and there was some random characters added to Pennsylvania in the csv file. You may <b>manually input the lat and lon for Pennsylvania and delete American Samoa, and Virgin Islands</b> in your final joined/exported csv before adding it back in QGIS, and save as a GeoJSON file (WGS 84). </li>
 
-                        <li>Your final maps will be graded based on its <b>overall design and accuracy, e.g., proper use of attributes, selection of data, direction of flows, data classification and symbolization, etc.</b></li>
-                        <li>Host your two maps separately via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files and library file</b> to the repository!!!) and submit the two urls through <a href="" target="_blank">D2L</a>. </li> <br>
+                          <li>ASK ME if in doubt!</li>
+
+                        </ul></li>
+                        <li>Create a time series proportional symbol map of the zika outbreak, add a <mark>map title with L.control</mark> (review Lab 6 if needed).</li>
+                        <li>Your final map will be graded based on its <b>overall design and accuracy, e.g., symbol size, pop up content, etc.</b></li>
+                        <li><b>Extra Credits:</b> Create a <b>map legend for the proportional symbols</b> (<i>Hint: You may visit <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a> and see <b>Step 8</b> to learn how</i>; <br>Note if you copy the code from the tutorial, you may need to fix the curly quotes to straight quotes to make it work.) </li>
+                        <li>Host your map via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files and library file</b> to the repository!!!) and submit the two urls through <a href="" target="_blank">D2L</a>. </li> <br>
 
                     </ul><br>
 
