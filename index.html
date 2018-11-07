@@ -57,8 +57,7 @@
                   <h3><i class="fa fa-paint-brush"></i> Overview</h3>
                   <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet and <a href="https://www.w3schools.com/jquery/jquery_intro.asp" target="_blank">JQuery</a> (another JS library). This lab exercise is modified from <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
                     <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with a similar structure to create a time series proportional symbol map. I am always happy to explain in more details if you are interested in learning the syntax.</p>
-
-                    <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. </p>
+                    <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. And you will need to apply some of the data processing skills introduced in Lab 6, <i>e.g., table join, polygon centroid,</i> to the put the deliverable data together.</p>
                     <h3 >IMPORTANT: Please use <span style="color: red">Firefox</span> to test the results!</h3>
 
                     <p>*********************************************************************************</p>
@@ -279,10 +278,14 @@ function createTimeLabel(startTimestamp) {
 
                   <p><a id="deliverable" title="Deliverables" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Deliverables</h3>
-                     <p>For the deliverables, we use the Zika outbreak data. </p>
+                     <p>For the deliverables, we use the Zika outbreak data. Click <a href="https://drive.google.com/open?id=1cVP3j_oUAJU_xkk9yWla1BVimJs6eIIg" target="_blank">here</a> to access the data files. The folder contains 11 csv files with monthly zika case counts at state level, in 2016. Each file only contains states with zika cases at the corresponding timestamp.</p>
 
-                    <ul><li>.
+                    <ul><li>Choose <mark>AT LEAST five files to download</mark> (you could read the timestamp information in the file name).
                         </li>
+                        <li>Create a time series data table according to the example data (consider using <b>QGIS - Table Join</b> to put the data together). <ul>
+                          <li>Let's use the <mark>travel associated cases</mark> here, which would be more interesting to map.</li>
+                          <li>Please make sure to <b>assign 0 values</b> when a state does not have a case (Hint: it might be easier to begin with data from a later time). </li>
+                        </ul></li>
 
                         <li>Your final maps will be graded based on its <b>overall design and accuracy, e.g., proper use of attributes, selection of data, direction of flows, data classification and symbolization, etc.</b></li>
                         <li>Host your two maps separately via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files and library file</b> to the repository!!!) and submit the two urls through <a href="" target="_blank">D2L</a>. </li> <br>
