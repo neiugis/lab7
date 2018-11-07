@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <title>Leaflet Prop Symbol Map</title>
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css"/>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
+
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
+      <style>
+          html, body { margin: 0; padding: 0; height: 100%; }
+          #map { min-height: 100%; }
+
+          .leaflet-left .leaflet-control {
+              margin-left: 280px;
+          }
+      </style>
+  </head>
+
+  <body>
+      <div id="map"></div>
+
+      <script>
+          var map = L.map('map',{
+            dragging: false
+          }).setView([37.8, -96], 4);
+
+          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+            minZoom:4,
+            maxZoom:4,
+            id: 'mapbox.light',
+            accessToken: 'pk.eyJ1IjoiY3VyZW1hbmdvIiwiYSI6ImNpcTQ4cGFwbDAxbmVmd25vZGNiOTVzeGEifQ.GWZByYkIft6eMRha69C8nw'  //Your Access Token
+          }).addTo(map);
+
+          // load the timeseries data
+          // change the file name to yours
+          $.getJSON("city.js")  // The getJSON() method is used to get JSON data
+          .done(function(data) {
+              var info = processData(data);
+              createPropSymbols(info.timestamps, data);
+              createSliderUI(info.timestamps);
+          });
+
+          // Define a function to process the data to derive values that will be used later, for example,
+          // the timestamp names (i.e., the name of each column) for use in the time slider labels, and
+          // the minimum/maximum values across the time series for use in a map legend (extra credit question)
+          function processData(data) {
+              // First, initialize the variables to hold the timestamps and min/max population values
+              var timestamps = [];  // square brackets to define an array of data (more than one)
+                                    // because there are multiple timestamps
+              var	min = Infinity;
+              var	max = -Infinity;
+
+              // Go through each row/feature/city of the data table
+              // Note data is the variable name in this function definition - processData(data)
+              for (var feature in data.features) {
+                  var properties = data.features[feature].properties;
+
+                  // At each row, go through the columns/attributes to get the values
+                  for (var attribute in properties) {
+                      if ( attribute != 'name' &&
+                           attribute != 'lat' &&
+                           attribute != 'lon' )   // != means NOT EQUAL TO
+                                                  // These four columns are NOT recorded
+                      {
+                          if ( $.inArray(attribute,timestamps) ===  -1) {
+                              timestamps.push(attribute);  // The JS push() method adds new items to the end of an array
+                                                           // and returns the new length of the array
+                          }
+                          if (properties[attribute] < min) {
+                              min = properties[attribute];
+                          }
+                          if (properties[attribute] > max) {
+                              max = properties[attribute];
+                          }
+                      }
+                  }
+              }
+              return {
+                  timestamps : timestamps,
+                  min : min,
+                  max : max
+              }
+          }
+
+          // Define the function to draw the proportional symbols
+          function createPropSymbols(timestamps, data) {
+
+              cities = L.geoJson(data, {
+                  // By default, Leaflet draws geojson points as simple markers
+                  // To alter this, the pointToLayer function needs to be used
+                  pointToLayer: function(feature, latlng) {
+                      return L.circleMarker(latlng, {
+                          fillColor: "#501e65",  // fill color of the circles
+                          color: '#501e65',      // border color of the circles
+                          weight: 2,             // circle line weight in pixels
+                          fillOpacity: 0.5       // fill opacity (0-1)
+                      }).on({
+
+                          mouseover: function(e) {
+                              this.openPopup();    // open popup when mouseover
+                              this.setStyle({fillColor: '#439E8B'});  // change fill color when mouseover
+                          },
+                          mouseout: function(e) {
+                              this.closePopup();   // close popup when mouseout
+                              this.setStyle({fillColor: '#501e65'});  // change fill to original color when mouseout
+                          }
+                      });
+                  }
+              }).addTo(map);
+
+            updatePropSymbols(timestamps[0]); // this function is defined below
+                                              // The map will first show proportional symbols with the first year's data
+          }
+
+          // Define the function to update/resize each circle according to a value in the time series
+          function updatePropSymbols(timestamp) {
+
+              cities.eachLayer(function(layer) {  // eachLayer() is an Leaflet function to iterate over the layers of the map
+
+                  var props = layer.feature.properties;
+                  var	radius = calcPropRadius(props[timestamp]); // defined below
+
+                  // pop-up information (when mouseover) for each city is also defined here
+                  var	popupContent = "<b>" + timestamp + ' population: ' + String(props[timestamp]) + "</b><br>" +
+                                     "<i>" + props.name + "</i> " ;
+
+                  layer.setRadius(radius);
+                  layer.bindPopup(popupContent, { offset: new L.Point(0,-radius) });
+              });
+          }
+
+          // calculate the radius of the proportional symbols based on area
+          function calcPropRadius(attributeValue) {
+
+              var scaleFactor = 0.001;   // the scale factor is used to scale the values; the units of the radius are in meters
+                                         // you may determine the scale factor accordingly based on the range of the values and the mapping scale
+              var area = attributeValue * scaleFactor;
+
+              return Math.sqrt(area/Math.PI);  // the function return the radius of the circle
+          }
+
+          // add the time slider
+          // here we use the HTML5 range type to create a simple slider
+          function createSliderUI(timestamps) {
+
+              var sliderControl = L.control({ position: 'bottomleft'} ); // position of the slider
+                                  // Another use of L.control :)                                     
+
+              sliderControl.onAdd = function(map) {
+
+                  var slider = L.DomUtil.create("input", "range-slider");
+
+                  L.DomEvent.addListener(slider, 'mousedown', function(e) {
+
+                      L.DomEvent.stopPropagation(e);
+
+                  });
+
+                  $(slider)
+                      .attr({'type':'range', 'max': timestamps[timestamps.length-1], 'min':timestamps[0], 'step': 10,'value': String(timestamps[0])})
+                      .on('input change', function() {
+                          updatePropSymbols($(this).val().toString()); // update the map with slider
+                          $(".temporal-legend").text(this.value); // update the label with slider
+                      });
+
+                  return slider;
+              }
+
+              sliderControl.addTo(map);
+              createTemporalLegend(timestamps[0]);
+          }
+
+          // add labels to the time slider
+        
+          function createTemporalLegend(startTimestamp) {
+
+              var temporalLegend = L.control({position: 'bottomleft' }); // same position as the slider
+                                   // One more use of L.control !!
+
+              temporalLegend.onAdd = function(map) {
+
+                  var output = L.DomUtil.create("output", "temporal-legend");
+
+                  return output;
+              }
+
+              temporalLegend.addTo(map);
+              $(".temporal-legend").text(startTimestamp); //display the first year by default
+          }
+
+      </script>
+
+  </body>
+</html>

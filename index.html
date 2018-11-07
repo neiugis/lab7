@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+      <title>Lab 7 - Time Slider </title>
+
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+      <link rel="icon" href="clock.png" >
+
+      <link rel="stylesheet" href="gridism.css">
+      <link rel="stylesheet" href="markdown.css">
+      <link rel="stylesheet" href="octicons.css">
+      <link href="main.css" rel="stylesheet">
+      <link href="pygments.css" rel="stylesheet">
+
+      <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+      <link href="prism.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+      <script type="text/javascript" async="" src="ga.js"></script><script src="jquery.js" type="text/javascript"></script>
+      <script src="snap.svg-min.js" type="text/javascript"></script>
+      <script src="application.js" type="text/javascript"></script>
+
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-3769691-29']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+
+    </head>
+
+    <body style="background-color:#439E8B">
+
+        <article class="full">
+            <div class="article-heading js-article-heading js-geopattern" style="background-color:#439E8B">
+                <div class="wrap">
+
+                   <h1>INCOMPLETE Lab 7. Time Series Proportional Symbols <i class="fa fa-leaf"></i></h1>
+                  <h3 style="color:#F6F90A"><b><i class="fa fa-spinner fa-spin"></i>  Due: 11:59 pm, Wednesday, 11/14</b></h3>
+                </div>
+            </div>
+
+            <div class="wrap">
+                <div class="toc-wrapper"><ol class="toc js-toc sticky"></ol></div>
+
+                <div class="markdown-body content-body">
+
+                  <p><a id="overview" title="Overview" class="toc-item"></a></p>
+                  <h3><i class="fa fa-paint-brush"></i> Overview</h3>
+                  <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet and <a href="https://www.w3schools.com/jquery/jquery_intro.asp" target="_blank">JQuery</a> (another JS library). This exercise is modified from <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
+                    <p><i class="fa fa-spinner fa-spin"></i>  These scripts contains a lot of function definition and may be difficult to follow if you are trying to understand them line by line. Therefore, I have created this tutorial for you to use as a template so that you could use data in similar structure to create a time series proportional symbol. I am happy to explain in more details if you are interested in learning the syntax.</p>
+                   
+                    <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. </p>
+                    <h3 >IMPORTANT: for this lab, please use <span style="color: red">Firefox</span> to see the animated symbols!</h3>
+
+                    <p>*********************************************************************************</p>
+
+                  <p><a id="data" title="Prepare Data" class="toc-item"></a></p>
+                  <h3><i class="fa fa-paint-brush"></i> Prepare Time Series Data</h3>
+
+                    <p>The first step for the spatiotemporal visualization is to create a time series dataset. As an example, I'll map <b>population dynamics of fifteen major U.S. cities</b>. Below is an example of what the data should look like (a <b>.csv</b> file): 
+                    <center><img src="img/table.png" width=95%></center>
+                     </p>
+                    <ul>
+                        <li>Click <a href="https://drive.google.com/file/d/0BzvZaHCgmEmNTTVBRnZyQjRtVnM/view?usp=sharing" target="_blank" style="font-weight:bold">here</a> to download the example data. Spend some time to make sure you understand the data structure. 
+                            <br>For the deliverables, you will create a time series tabular data of Zika outbreak in the U.S. from separate provided data files. Note <b>the time stamp columns should be placed in chronological order</b>. </li>
+                        <li>Open QGIS, click the <b>Add Delimited Text Layer</b> button <img alt="" src="img/but3.png"> to add the CSV table. Choose X field (longitude) and Y field (latitude) to define the point locations. </li>
+                        
+                        <li>The data, <i>i.e., 15 cities</i>, should have been loaded as points.</li>
+                        <li>Save the data as GeoJSON (WGS 84).</li>
+                        
+                        <li>Since we will be using JQuery to read/process the data this time, the last step is to <b>CHANGE THE FILE EXTENSION</b> from .geojson to <b><CODE>.js</CODE></b> (NO NEED to add the variable line). If you are not sure how to change file extension, you may open the geojson file in Atom and then choose Save As to save the file as <code>.js</code> file to your lab folder.</li>
+
+                    </ul>
+                    
+                    <p><a id="proportional" title="Proportional Symbol Map" class="toc-item"></a></p>
+                  <h3><i class="fa fa-paint-brush"></i> Proportional Symbol Map</h3>
+                    <p>We will map the city population data as proportional symbols. Not sure what is a proportional symbol map? - click <a href="http://pro.arcgis.com/en/pro-app/help/mapping/layer-properties/proportional-symbology.htm" target="_blank">here</a>.</p>
+                     <ul>
+                      <li>First, open your code editor and <b>set up the basemap showing the U.S.</b> in fullscreen mode, and save the document as <code>map7.html</code>.
+                        </li>
+                         
+                    <li>Next, reference the JQuery libraries so that we could use the JQuery functions:
+                         <pre><code class="language-html">&lt;script src=&quot;https://code.jquery.com/jquery-3.3.1.min.js&quot;
+integrity=&quot;sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=&quot;
+crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;https://code.jquery.com/ui/1.12.1/jquery-ui.min.js&quot;
+integrity=&quot;sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=&quot;
+crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</code></pre></li>
+                         
+                    <li>We will use the JQuery function <code>getJSON()</code> to load the data. A <code>$</code> sign to define/access jQuery. Place the following lines AFTER adding the tile layer:
+                         <pre><code class="language-javascript"> // change the file name to yours
+          $.getJSON("city.js")  // The getJSON() method is used to get JSON data
+          .done(function(data) {
+  
+          });</code></pre>
+                          </li>
+                         
+                     <li>Next, we will define a function to process the data to acquire the timestamps (the year columns) and the maximum and minimum population values to be used for creating the legend. Define the data processing (you may name the function differently) function below the loading data portion: 
+                <pre><code class="language-javascript">function processData(data) {
+  // First, initialize the variables to hold the timestamps and min/max population values
+  var timestamps = [];  // square brackets to define an array of data 
+                        // because there are multiple timestamps
+  var	min = Infinity; // for the min, begin with the largest possible value - infinity
+  var	max = -Infinity;// for the max, begin with the smallest possible value - negative infinity
+
+  // Go through each row/feature of the data table
+  // Note data is the variable name in the function definition - processData(data)
+  for (var feature in data.features) {
+      var properties = data.features[feature].properties;
+
+      // At each row, go through the columns/attributes to get the values
+      for (var attribute in properties) {
+          if ( attribute != 'name' &amp;&amp;
+               attribute != 'lat' &amp;&amp;
+               attribute != 'lon' )   // != means NOT EQUAL TO
+                                      // These three columns are NOT recorded
+                                      // Modify this part when mapping your own data
+          {
+              if ( $.inArray(attribute,timestamps) ===  -1) { // JQuery in.Array() method searches for a specified value within an array and return its index (or -1 if not found)
+                                                // here, the new timestamp is only added when it is not already in the array
+                                                // triple equals === compares both type and value
+              
+                  timestamps.push(attribute);  // The JS push() method adds new items to the end of an array
+                                               // and returns the new length of the array
+              }
+              if (properties[attribute] &lt; min) {
+                  min = properties[attribute]; // record/update the current smaller values as the min
+              }
+              if (properties[attribute] &gt; max) {
+                  max = properties[attribute]; // record/update the current larger values as the max
+              }
+          }
+      }
+  }
+  return {
+      timestamps : timestamps,
+      min : min,
+      max : max
+  }
+}</code></pre>
+                         Read the comment lines to learn more about what this function does exactly. It looks like a lot going on. <b>But when you map your own data, the only places you need to change are the attribute/column names that are not supposed to be mapped ('name', 'lat', 'lon' in this case).</b> </li>
+                         
+                         <li>Next, add the following functions for drawing proportional symbols:
+                         <pre><code class="language-javascript">// The function to draw the proportional symbols
+function createPropSymbols(timestamps, data) {
+
+  cities = L.geoJson(data, {
+  
+      // By default, Leaflet draws geojson points as simple markers
+      // To alter this, the pointToLayer function needs to be used
+      pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng, { // we use circle marker for the points
+              fillColor: "#501e65",  // fill color of the circles
+              color: '#501e65',      // border color of the circles
+              weight: 2,             // circle line weight in pixels
+              fillOpacity: 0.5       // fill opacity (0-1)
+          }).on({
+
+        });
+      }
+  }).addTo(map);
+
+  updatePropSymbols(timestamps[0]); // this function is defined below
+                                  // When loaded, the map will first show proportional symbols with the first timestamp's data
+}
+
+// The function to update/resize each circle marker according to a value in the time series
+function updatePropSymbols(timestamp) {
+
+  cities.eachLayer(function(layer) {  // eachLayer() is an Leaflet function to iterate over the layers of the map
+
+      var props = layer.feature.properties;   // attributes
+      var radius = calcPropRadius(props[timestamp]); // circle radius, calculation function defined below
+
+      // pop-up information (when mouseover) for each city is also defined here
+      var popupContent = "<b>" + timestamp + ' population: ' + String(props[timestamp]) + "</b><br>" +
+                         "<i>" + props.name + "</i> " ;
+
+      layer.setRadius(radius);  // Leaflet method for setting the radius of a circle
+      layer.bindPopup(popupContent, { offset: new L.Point(0,-radius) }); // bind the popup content, with an offset
+  });
+}
+
+// calculate the radius of the proportional symbols based on area
+function calcPropRadius(attributeValue) {
+
+  var scaleFactor = 0.001;   // the scale factor is used to scale the values; the units of the radius are in meters
+                             // you may determine the scale factor accordingly based on the range of the values and the mapping scale
+  var area = attributeValue * scaleFactor;
+
+  return Math.sqrt(area/Math.PI);  // the function return the radius of the circle to be used in the updatePropSymbols()
+}
+</code></pre>
+                  Again, a lot of things going on here. But you ONLY need to adjust the popup content (as we did before) and the scale factor (depending on the value) for making your own maps. </li>
+
+                  <p><a id="slider" title="Time Slider" class="toc-item"></a></p>
+                  <h3><i class="fa fa-paint-brush"></i> Add a Time Slider</h3>
+
+
+                  <p><a id="deliverable" title="Deliverables" class="toc-item"></a></p>
+                  <h3><i class="fa fa-paint-brush"></i> Deliverables</h3>
+                     <p>For the deliverables, we use the same migration data (flows between Cook and other U.S. counties). You will create TWO maps:</p>
+
+                    <ul><li>A flow map to show the <mark>TOP 10 gross INFLOW (NOT the net migration) to Cook County</mark> (be careful when you define the origins and destinations in the function). <b>Customize the flow lines (width and color) with the inflow data properly </b>.
+                        </li>
+                        <li><mark>Ask yourself a question based on the data, then create a flow map to answer your question.</mark> Add a <b>title (on a control pane)</b> to clarify what you are mapping here.
+                        </li>
+                        <li>Your final maps will be graded based on its <b>overall design and accuracy, e.g., proper use of attributes, selection of data, direction of flows, data classification and symbolization, etc.</b></li>
+                        <li>Host your two maps separately via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files and library file</b> to the repository!!!) and submit the two urls through <a href="https://neiu.desire2learn.com/d2l/lms/dropbox/admin/mark/folder_submissions_users.d2l?db=74999&ou=2924591" target="_blank">D2L</a>. </li> <br>
+                        <li><b>EXTRA CREDITS (8 pts):</b> Download the original county-to-county migration data from the  <a href="https://www.census.gov/data/tables/2015/demo/geographic-mobility/county-to-county-migration-2011-2015.html" target="_blank">Census</a> (the In-, Out-, Net, and Gross Migration file). Clean up and format the data to create an animated flow map to show the TOP 10 county level NET migration (may be negative values, be careful about the flow direction) in the entire U.S. (2011-2015).</li>
+                    </ul><br>
+
+            <br><br>
+            </div>
+            </div>
+        </article>
+
+          <footer>
+            <div class="wrap">
+
+              <p>Copyright &copy; Ting Liu 2018</p>
+            <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+            </div>
+          </footer>
+
+            <script src="prism.js"></script>
+
+     </body>
+</html>
