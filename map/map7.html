@@ -172,12 +172,12 @@
               }
 
               sliderControl.addTo(map);
-              createTemporalLegend(timestamps[0]);
+              createTimeLabel(timestamps[0]);
           }
 
           // add labels to the time slider
         
-          function createTemporalLegend(startTimestamp) {
+          function createTimeLabel(startTimestamp) {
 
               var temporalLegend = L.control({position: 'bottomleft' }); // same position as the slider
                                    // One more use of L.control !!
