@@ -151,11 +151,11 @@
 
               return Math.sqrt(area/Math.PI);  // the function return the radius of the circle to be used in the updatePropSymbols()
             }
-          
+
           function createSliderUI(timestamps) {
 
           var sliderControl = L.control({ position: 'bottomleft'} ); // position of the slider
-                              // Another use of L.control :)                                     
+                              // Another use of L.control :)
 
           sliderControl.onAdd = function(map) {
               var slider = L.DomUtil.create("input", "range-slider");

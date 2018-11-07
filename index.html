@@ -264,7 +264,7 @@ function createTimeLabel(startTimestamp) {
   temporalLegend.addTo(map);
   $(".temporal-legend").text(startTimestamp); //display the first timestamp as label by default
 }</code></pre></li>
-                    <li>Then, <b>MODIFY</b> the getJSON function to add the slider creation functions:
+                    <li>Then, <b>MODIFY</b> the getJSON function to add the slider creation function:
                 <pre><code class="language-javascript">$.getJSON("city.geojson")
 .done(function(data) {
     var info = processData(data);
