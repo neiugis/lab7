@@ -56,8 +56,8 @@
                   <p><a id="overview" title="Overview" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Overview</h3>
                   <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet and <a href="https://www.w3schools.com/jquery/jquery_intro.asp" target="_blank">JQuery</a> (another JS library). This lab exercise is modified from <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
-                    <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments. However, you may use the scripts as a template to map data in a similar structure to create a time series proportional symbol map. I am always happy to explain in more details if you are interested in learning the syntax.</p>
-                   
+                    <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with a similar structure to create a time series proportional symbol map. I am always happy to explain in more details if you are interested in learning the syntax.</p>
+
                     <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. </p>
                     <h3 >IMPORTANT: Please use <span style="color: red">Firefox</span> to test the results!</h3>
 
@@ -68,9 +68,9 @@
 
                     <p>The first step for the spatiotemporal visualization is to create a time series dataset. As an example, I'll map <b>population dynamics of fifteen major U.S. cities</b>. Below is an example of what the data look like (a <b>.csv</b> file): </p>
                     <center><img src="img/table.png" width=97%></center>
-                     
+
                     <ul>
-                        <li>Click <a href="https://drive.google.com/file/d/0BzvZaHCgmEmNTTVBRnZyQjRtVnM/view?usp=sharing" target="_blank" style="font-weight:bold">here</a> to download the example data. Spend some time to make sure you understand the data structure. 
+                        <li>Click <a href="https://drive.google.com/file/d/0BzvZaHCgmEmNTTVBRnZyQjRtVnM/view?usp=sharing" target="_blank" style="font-weight:bold">here</a> to download the example data. Spend some time to make sure you understand the data structure.
                             <br>For the deliverables, you will create a time series tabular data of Zika outbreak in the U.S. from separate provided data files. Note <b>the time stamp columns should be placed in chronological order</b>. </li>
                         <li>In the previous lab, we introduced how to display csv table with coordinate information as points in QGIS. We are introducing an online tool this time, which may come in handy when other GIS processing (e.g., table join, simplify geometry) is not required. </li>
                             <li>In your web browser, go to <a href="http://geojson.io" target="_blank">geojson.io</a>, select <b>Open - File</b> (see image below) to open the csv file you have just downloaded. </li>
@@ -78,18 +78,18 @@
                         <li>The data, <i>i.e., 15 cities</i>, should have been loaded as points/markers.</li>
                         <li>Next, click <b>Save - GeoJSON</b> to save the data as a geojson file.</li>
                         <center><img src="img/sve.png" width=95%></center>
-                    
+
 <!--                        <li>Since we will be using a JQuery function to read/parse the data this time, the last step is to <b>CHANGE THE FILE EXTENSION</b> from .geojson to <b><CODE>.json</CODE></b> (NO NEED to add the variable line). If you are not sure how to change file extension, you may open the geojson file in Atom and then choose Save As to save the file as <code>.json</code> file to your lab folder.</li>-->
 
                     </ul>
-                    
+
                     <p><a id="proportional" title="Proportional Symbol Map" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Proportional Symbol Map</h3>
                     <p>We will map the city population data as proportional symbols. Not sure what is a proportional symbol map? - click <a href="http://pro.arcgis.com/en/pro-app/help/mapping/layer-properties/proportional-symbology.htm" target="_blank">here</a>.</p>
                      <ul>
                       <li>First, open your code editor and <b>set up the basemap showing the U.S. in fullscreen mode</b>, and save the document as <code>map7.html</code>.
                         </li>
-                         
+
                     <li>Next, reference the JQuery libraries so that we could use the JQuery functions:
                          <pre><code class="language-html">&lt;script src=&quot;https://code.jquery.com/jquery-3.3.1.min.js&quot;
 integrity=&quot;sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=&quot;
@@ -98,7 +98,7 @@ crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;https://code.jquery.com/ui/1.12.1/jquery-ui.min.js&quot;
 integrity=&quot;sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=&quot;
 crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</code></pre></li>
-                         
+
                     <li>We use the JQuery function <code>getJSON()</code> to load the data. A <code>$</code> sign to define/access jQuery. Place the following lines AFTER adding the tile layer:
                          <pre><code class="language-javascript">//change the file name to yours
 $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
@@ -106,12 +106,12 @@ $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
 
 });</code></pre>
                     The data wouldn't show up on the map at this point as we only loaded the data. We will define how to draw the data in the following steps. </li>
-                         
-                     <li>We first define a function to process the data to acquire the timestamps (the year columns) and the maximum and minimum population values to be used for creating the legend. 
-                         <br>Define the data processing (you may name the function differently) function AFTER the loading data portion: 
+
+                     <li>We first define a function to process the data to acquire the timestamps (the year columns) and the maximum and minimum population values to be used for creating the legend.
+                         <br>Define the data processing (you may name the function differently) function AFTER the loading data portion:
                 <pre><code class="language-javascript">function processData(data) {
   // First, initialize the variables to hold the timestamps and min/max population values
-  var timestamps = [];  // square brackets to define an array of data 
+  var timestamps = [];  // square brackets to define an array of data
                         // because there are multiple timestamps
   var	min = Infinity; // for the min, begin with the largest possible value - infinity
   var	max = -Infinity;// for the max, begin with the smallest possible value - negative infinity
@@ -133,7 +133,7 @@ $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
               if ( $.inArray(attribute,timestamps) ===  -1) { // JQuery in.Array() method searches for a specified value within an array and return its index (or -1 if not found)
                                                 // here, the new timestamp is only added when it is not already in the array
                                                 // triple equals === compares both type and value
-              
+
                   timestamps.push(attribute);  // The JS push() method adds new items to the end of an array
                                                // and returns the new length of the array
               }
@@ -153,13 +153,13 @@ $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
   }
 }</code></pre>
                          Read the comment lines to learn more about what this function does exactly. It looks like a lot going on. <b>But when you map your own data, the only places you need to change are the attribute/column names that are not supposed to be mapped ('id', 'name', 'lat', 'lon' in this case).</b> </li>
-                         
+
                          <li>Next, add the following functions for drawing proportional symbols (AFTER processing data):
                          <pre><code class="language-javascript">// The function to draw the proportional symbols
 function createPropSymbols(timestamps, data) {
 
   cities = L.geoJson(data, {
-  
+
       // By default, Leaflet draws geojson points as simple markers
       // To alter this, the pointToLayer function needs to be used
       pointToLayer: function(feature, latlng) {
@@ -212,25 +212,25 @@ function calcPropRadius(attributeValue) {
 }
 </code></pre>
                   Again, a lot of things going on here. But you ONLY need to adjust the popup content (as we did before) and the scale factor (depending on the value) for making your own maps. </li>
-                         
-                <li>Next, we will call the defined functions in the loading data portion to apply them. <b>MODIFY</b> the geoJSON function to add the data processing and symbol drawing functions:
+
+                <li>Next, we will call the defined functions in the loading data portion to apply them. <b>MODIFY</b> the getJSON function to add the data processing and symbol drawing functions:
                 <pre><code class="language-javascript">$.getJSON("city.geojson")
 .done(function(data) {
     var info = processData(data);
     createPropSymbols(info.timestamps, data);
 });</code></pre></li>
-                         
+
                 <li>Your map should be displayed as proportional symbol with the first timestamp's data at this point (<a href="" target="_blank">sample code</a>):</li>
                 <iframe id="final" src="map/symbol.html" width=98% height=520 frameborder=0></iframe></ul>
 
                   <p><a id="slider" title="Time Slider" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Add a Time Slider</h3>
 
-                  <ul><li>Now we will add the time slider, with labels, to animate the temporal data. For this lab, we will use the <a href="https://www.w3schools.com/howto/howto_js_rangeslider.asp" target="_blank">HTML5 range type</a> to create a simple slider. 
+                  <ul><li>Now we will add the time slider, with labels, to animate the temporal data. For this lab, we will use the <a href="https://www.w3schools.com/howto/howto_js_rangeslider.asp" target="_blank">HTML5 range type</a> to create a simple slider.
                       <pre><code class="language-javascript">function createSliderUI(timestamps) {
 
   var sliderControl = L.control({ position: 'bottomleft'} ); // position of the slider
-                      // Another use of L.control :)                                     
+                      // Another use of L.control :)
 
   sliderControl.onAdd = function(map) {
       var slider = L.DomUtil.create("input", "range-slider");
@@ -264,7 +264,7 @@ function createTimeLabel(startTimestamp) {
   temporalLegend.addTo(map);
   $(".temporal-legend").text(startTimestamp); //display the first timestamp as label by default
 }</code></pre></li>
-                    <li>Then, <b>MODIFY</b> the geoJSON function to add the slider creation functions:
+                    <li>Then, <b>MODIFY</b> the getJSON function to add the slider creation functions:
                 <pre><code class="language-javascript">$.getJSON("city.geojson")
 .done(function(data) {
     var info = processData(data);
@@ -274,24 +274,24 @@ function createTimeLabel(startTimestamp) {
                     <li>The simple slider is added to the map, at your defined position (I used bottom left) (<a href="" target="_blank">sample code</a>):</li>
                 <iframe id="final" src="map/slider.html" width=98% height=520 frameborder=0></iframe></ul>
 
-                    
-                
-                
+
+
+
                   <p><a id="deliverable" title="Deliverables" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Deliverables</h3>
                      <p>For the deliverables, we use the Zika outbreak data. </p>
 
                     <ul><li>.
                         </li>
-                        
+
                         <li>Your final maps will be graded based on its <b>overall design and accuracy, e.g., proper use of attributes, selection of data, direction of flows, data classification and symbolization, etc.</b></li>
                         <li>Host your two maps separately via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files and library file</b> to the repository!!!) and submit the two urls through <a href="" target="_blank">D2L</a>. </li> <br>
-                        
+
                     </ul><br>
 
             <br><br>
                 </div></div>
-        
+
 
           <footer>
             <div class="wrap">
