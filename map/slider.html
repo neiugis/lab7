@@ -151,43 +151,52 @@
 
               return Math.sqrt(area/Math.PI);  // the function return the radius of the circle to be used in the updatePropSymbols()
             }
-          
+
           function createSliderUI(timestamps) {
+            var sliderControl = L.control({ position: 'bottomleft'} ); // position of the slider
+                              // Another use of L.control :)
+            sliderControl.onAdd = function(map) {
+              //initialize a range slider with mousedown control
+                var slider = L.DomUtil.create("input", "range-slider");
+                L.DomEvent.addListener(slider, 'mousedown', function(e) {
+                    L.DomEvent.stopPropagation(e);
+                });
 
-          var sliderControl = L.control({ position: 'bottomleft'} ); // position of the slider
-                              // Another use of L.control :)                                     
-
-          sliderControl.onAdd = function(map) {
-              var slider = L.DomUtil.create("input", "range-slider");
-              L.DomEvent.addListener(slider, 'mousedown', function(e) {
-                  L.DomEvent.stopPropagation(e);
-              });
+              // Define the labels of the time slider as an array of strings
+              // Modify this for your data
+              var labels = ["1950", "1960","1970","1980", "1990", "2000","2010"];
 
               $(slider)
-                  .attr({'type':'range', 'max': timestamps[timestamps.length-1], 'min':timestamps[0], 'step': 10,'value': String(timestamps[0])})
+                  .attr({
+                    'type':'range',
+                    'max': timestamps[timestamps.length-1],
+                    'min':timestamps[0],
+                    'step': 10, // Change this to match the numeric interval between adjacent timestamps
+                    'value': String(timestamps[0])
+                  })
                   .on('input change', function() {
-                      updatePropSymbols($(this).val().toString()); // update the map with slider
-                      $(".temporal-legend").text(this.value); // update the label with slider
+                      updatePropSymbols($(this).val().toString()); // update the map for the timestamp
+                      var i = $.inArray(this.value,timestamps);
+                      $(".temporal-legend").text(labels[i]); // update the label for the timestamp
                   });
               return slider;
+            }
+            sliderControl.addTo(map);
+            createTimeLabel("1950"); //The starting timestamp label
           }
 
-          sliderControl.addTo(map);
-          createTimeLabel(timestamps[0]);
-        }
 
-
-        // add labels to the time slider
+        // Add labels to the time slider when the map first loaded
         function createTimeLabel(startTimestamp) {
           var temporalLegend = L.control({position: 'bottomleft' }); // same position as the slider
                                // One more use of L.control !!
-
           temporalLegend.onAdd = function(map) {
               var output = L.DomUtil.create("output", "temporal-legend");
+              $(output).text(startTimestamp);
               return output;
           }
           temporalLegend.addTo(map);
-          $(".temporal-legend").text(startTimestamp); //display the first year by default
+          // $(".temporal-legend").text(startTimestamp); //display the first year by default
         }
 
       </script>
