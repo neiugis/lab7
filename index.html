@@ -262,15 +262,14 @@ function calcPropRadius(attributeValue) {
 
   // Add labels to the time slider when the map first loaded
   function createTimeLabel(startTimestamp) {
-  var temporalLegend = L.control({position: 'bottomleft' }); // same position as the slider
-                     // One more use of L.control !!
-  temporalLegend.onAdd = function(map) {
-    var output = L.DomUtil.create("output", "temporal-legend");
-    $(output).text(startTimestamp);
-    return output;
-  }
-  temporalLegend.addTo(map);
-  // $(".temporal-legend").text(startTimestamp); //display the first year by default
+    var temporalLegend = L.control({position: 'bottomleft' }); // same position as the slider
+                       // One more use of L.control !!
+    temporalLegend.onAdd = function(map) {
+      var output = L.DomUtil.create("output", "temporal-legend");
+      $(output).text(startTimestamp);
+      return output;
+    }
+    temporalLegend.addTo(map);
   }</code></pre></li>
                   <li>For your own data, you will need to change the <code>step</code> value to match the interval between adjacent timestamps, and also  change the label texts.</li>
                     <li>Then, <b>MODIFY</b> the getJSON function to add the slider creation function:
@@ -294,7 +293,7 @@ function calcPropRadius(attributeValue) {
                         </li>
                         <li>Create a time series data table according to the example data (Hint: it might be easier to begin with data from a later time). <ul>
                           <li>Consider using <b>QGIS - Table Join</b> to put the data together. Let's use the <mark>travel associated cases</mark> here, which would be more interesting to map.</li>
-                            <li>Again, <b>the timestamp columns should be placed in chronological order</b></li>
+                            <li><b>The timestamp columns should be placed in chronological order</b>, and you may want to rename the timestamp columns so that the numeric interval is a constant, e.g., 1, 2, 3, 4, 5.</li>
                           <li>Please make sure to <b>assign 0 values</b> when a state does not have a case (you may export the joined table (create CSVT when saving as) and do this in Excel). </li>
                           <li>Also the table doesn't contain coordinate information of the states. Recall how we generated coordinates for counties last time. You may download the state boundary file <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html" target="_blank">here</a>, <i>generate centroids, save in WGS84, calculate lat and lon, then table join the coordinates to the csv..</i> (I know it is a lot but it is also important to review as you will likely need to do this often with real data.)</li>
                           <li>You may find there are a few states/territories with <b>NULL lat/lon (Pennsylvania, American Samoa, and U.S. Virgin Islands)</b>, as the census boundary file doesn't include the unincorporated territories and there was some random characters added to Pennsylvania in the csv file. You may <b>manually input the lat and lon for Pennsylvania and delete American Samoa, and Virgin Islands</b> in your final joined/exported csv before adding it back in QGIS, and save as a GeoJSON file (WGS 84). </li>
