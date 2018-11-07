@@ -298,11 +298,11 @@ function calcPropRadius(attributeValue) {
                           <li>Also the table doesn't contain coordinate information of the states. Recall how we generated coordinates for counties last time. You may download the state boundary file <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html" target="_blank">here</a>, <i>generate centroids, save in WGS84, calculate lat and lon, then table join the coordinates to the csv..</i> (I know it is a lot but it is also important to review as you will likely need to do this often with real data.)</li>
                           <li>You may find there are a few states/territories with <b>NULL lat/lon (Pennsylvania, American Samoa, and U.S. Virgin Islands)</b>, as the census boundary file doesn't include the unincorporated territories and there was some random characters added to Pennsylvania in the csv file. You may <b>manually input the lat and lon for Pennsylvania and delete American Samoa, and Virgin Islands</b> in your final joined/exported csv before saving it as a GeoJSON file (either with geojson.io or QGIS). </li>
 
-                          <li>ASK ME if in doubt!</li>
+                          <li>ASK ME right away if in doubt!</li>
 
                         </ul></li>
                         <li>Create a time series proportional symbol map of the zika outbreak, add a <mark>map title with L.control</mark> (review Lab 6 if needed).</li>
-                        <li>Your final map will be graded based on its <b>overall design and accuracy, e.g., symbol size, pop up content, etc.</b></li>
+                        <li>Your final map will be graded based on its <b>overall design and accuracy, e.g., proportional symbol size, timestamps and labels, pop up content, etc.</b></li>
                         <li><b><i>Extra Credits:</i></b> Create a <b>map legend for the proportional symbols</b> (<i>Hint: You may visit <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a> and see <b>Step 8</b> to learn how</i>; <br>Note if you copy the code from the tutorial, you may need to fix the curly quotes to straight quotes to make it work.) </li>
                         <li>Host your map via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files and library file</b> to the repository!!!) and submit the two urls through <a href="https://neiu.desire2learn.com/d2l/lms/dropbox/admin/mark/folder_submissions_users.d2l?db=75000&ou=2924591" target="_blank">D2L</a>. </li> <br>
 
