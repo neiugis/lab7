@@ -44,7 +44,7 @@
                 <div class="wrap">
 
                    <h1>Lab 7. Time Series Proportional Symbols <i class="fa fa-leaf"></i></h1>
-                  <h3 style="color:#F6F90A"><b><i class="fa fa-spinner fa-spin"></i>  Due: 11:59 pm, Wednesday, <strike>11/14</strike> 11/21</b></h3>
+                  <h3 style="color:#F6F90A"><b><i class="fa fa-spinner fa-spin"></i>  Due: 11:59 pm, Thursday, 11/12</b></h3>
                 </div>
             </div>
 
@@ -65,20 +65,20 @@
                   <p><a id="data" title="Prepare Data" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Prepare Time Series Data</h3>
 
-                    <p>The first step for the spatiotemporal visualization is to create a time series dataset. As an example, I'll map <b>population dynamics of fifteen major U.S. cities</b>. Below is an example of what the data look like (a <b>.csv</b> file): </p>
+                    <p>The first step for the spatiotemporal visualization is to create a time series dataset. As an example, I'll map <b>population dynamics of fifteen major U.S. cities</b>. Below is an example of what the dataset looks like (a <b>.csv</b> file): </p>
                     <center><img src="img/table.png" width=97%></center>
 
                     <ul>
                         <li>Click <a href="https://drive.google.com/file/d/0BzvZaHCgmEmNTTVBRnZyQjRtVnM/view?usp=sharing" target="_blank" style="font-weight:bold">here</a> to download the example data. Spend some time to make sure you understand the data structure.
-                            <br>For the deliverables, you will create a time series tabular data of Zika outbreak in the U.S. from separate provided data files. Note <b>the timestamp columns should be placed in chronological order</b>. </li>
+                            <br><i>For the deliverables, you will create a time series tabular data of Zika outbreak in the U.S. from separate data files (link provided). Note <b>the timestamp columns should be placed in chronological order from left to right</b></i>. </li>
                         <li>In the previous lab, we introduced how to display csv table with coordinate information as points in QGIS. We are introducing an online tool this time, which may come in handy when other GIS processing (e.g., table join, simplify geometry) is not required. </li>
                             <li>In your web browser, go to <a href="http://geojson.io" target="_blank">geojson.io</a>, select <b>Open - File</b> (see image below) to open the csv file you have just downloaded. </li>
-                        <center><img src="img/open.png" width=95%></center>
+                        <center><img src="img/open.png" width=98%></center>
                         <li>The data, <i>i.e., 15 cities</i>, should have been loaded as points/markers.</li>
                         <li>Next, click <b>Save - GeoJSON</b> to save the data as a geojson file.</li>
                         <center><img src="img/sve.png" width=95%></center>
 
-                        <li>Since we use a JQuery function to read/parse the data this time, we will keep the .geojson file.</li>
+                        <li>Since we use a JQuery function to read/parse the data this time, we can keep the .geojson file for mapping - <b>there is NO need to save it as a .js file</b>.</li>
 
                     </ul>
 
