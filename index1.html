@@ -75,7 +75,7 @@
                             <li>In your web browser, go to <a href="http://geojson.io" target="_blank">geojson.io</a>, select <b>Open - File</b> (see image below) to open the csv file you have just downloaded. </li>
                         <center><img src="img/open.png" width=98%></center>
                         <li>The data, <i>i.e., 15 cities</i>, should have been loaded as points/markers.</li>
-                        <li>Next, click <b>Save - GeoJSON</b> to save the data as a geojson file.</li>
+                        <li>Next, click <b>Save - GeoJSON</b> to save the data as a geojson file to your lab 7 folder.</li>
                         <center><img src="img/sve.png" width=95%></center>
 
                         <li>Since we use a JQuery function to read/parse the data this time, we can keep the .geojson file for mapping - <b>there is NO need to save it as a .js file</b>.</li>
@@ -84,30 +84,31 @@
 
                     <p><a id="proportional" title="Proportional Symbol Map" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Proportional Symbol Map</h3>
-                    <p>We will map the city population data as proportional symbols. Not sure what is a proportional symbol map? - click <a href="http://pro.arcgis.com/en/pro-app/help/mapping/layer-properties/proportional-symbology.htm" target="_blank">here</a>.</p>
+                    <p>We will map the city population data as proportional symbols. Not sure what is a proportional symbol map? - click <a href="http://pro.arcgis.com/en/pro-app/help/mapping/layer-properties/proportional-symbology.htm" target="_blank">here</a> to learn more.</p>
                      <ul>
-                      <li>First, open your code editor and <b>set up the basemap showing the U.S. in fullscreen mode</b>, and save the document as <code>map7.html</code>.
+                      <li>First, open your code editor and <b>set up the basemap to show the contiguous U.S. in fullscreen mode</b>, and save the document as <code>map7.html</code> to your lab 7 folder, where the geojson file was saved.
                         </li>
 
-                    <li>Next, reference the JQuery libraries so that we could use the JQuery functions:
-                         <pre><code class="language-html">&lt;script src=&quot;https://code.jquery.com/jquery-3.3.1.min.js&quot;
-integrity=&quot;sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=&quot;
+                    <li>Next, reference the JQuery libraries so that we could use the JQuery functions (add to the <code>head</code> section):
+                         <pre><code class="language-html">&lt;script src=&quot;https://code.jquery.com/jquery-3.5.1.min.js&quot;
+integrity=&quot;sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=&quot;
 crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
 
 &lt;script src=&quot;https://code.jquery.com/ui/1.12.1/jquery-ui.min.js&quot;
 integrity=&quot;sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=&quot;
 crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</code></pre></li>
 
-                    <li>We use the JQuery function <code>getJSON()</code> to load the data. A <code>$</code> sign to define/access jQuery. Place the following lines AFTER adding the tile layer:
+                    <li>This time, we use the JQuery function <code>getJSON()</code> to load the GeoJSON data directly. A <code>$</code> sign is used to define/access jQuery. Place the following lines AFTER adding the tile layer. Note you may need to change the name of the geojson file to match yours:
                          <pre><code class="language-javascript">//change the file name to yours
 $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
 .done(function(data) {
 
 });</code></pre>
-                    The data wouldn't show up on the map at this point as we only loaded the data. We will define how to draw the data in the following steps. </li>
+                    </li>
+                    <li>The data wouldn't show up on the map at this point. We will define how to draw the data in the following steps. </li>
 
                      <li>We first define a function to process the data to acquire the timestamps (the year columns) and the maximum and minimum population values to be used for creating the legend (extra credit question).
-                         <br>Define the data processing (you may name the function differently) function AFTER the loading data portion:
+                         <br>Add the function below (you may name the function differently) following the loading data portion:
                 <pre><code class="language-javascript">function processData(data) {
   // First, initialize the variables to hold the timestamps and min/max population values
   var timestamps = [];  // square brackets to define an array of data
@@ -151,9 +152,9 @@ $.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
       max : max
   }
 }</code></pre>
-                         Read the comment lines to learn more about what this function does exactly. It looks like a lot going on. <b>But when you map your own data, the only places you need to change are the attribute/column names that are not supposed to be mapped ('id', 'name', 'latitude', 'longitude' in this case).</b> </li>
-
-                         <li>Next, add the following functions for drawing proportional symbols (AFTER processing data):
+                         </li>
+                        <li>Read the comment lines to learn more about what this function does exactly. It looks like a lot going on. <b>But when you map your own data, the only places you need to change are the attribute/column names that are NOT supposed to be mapped ('id', 'name', 'latitude', 'longitude' in this case).</b> </li>
+                         <li>Next, add the functions below to draw proportional symbols (following the processing data portion):
                          <pre><code class="language-javascript">// The function to draw the proportional symbols
 function createPropSymbols(timestamps, data) {
 
