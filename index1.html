@@ -58,7 +58,7 @@
                   <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet and <a href="https://www.w3schools.com/jquery/jquery_intro.asp" target="_blank">JQuery</a> (another JS library). This lab exercise is modified from <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
                     <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with similar structure to create a time series proportional symbol map. I am always happy to explain in more details if you are interested in learning the syntax.</p>
                     <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. And you will need to apply some of the data processing skills introduced in Lab 6, <i>e.g., table join, polygon centroid,</i> to put the deliverable data together.</p>
-                    <h3 >IMPORTANT: Please use <span style="color: red">Firefox</span> to test the results!</h3>
+<!--                    <h3 >IMPORTANT: Please use <span style="color: red">Firefox</span> to test the results!</h3>-->
 
                     <p>*********************************************************************************</p>
 
@@ -100,7 +100,7 @@ crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</code></pre></li>
 
                     <li>This time, we use the JQuery function <code>getJSON()</code> to load the GeoJSON data directly. A <code>$</code> sign is used to define/access jQuery. Place the following lines AFTER adding the tile layer. Note you may need to change the name of the geojson file to match yours:
                          <pre><code class="language-javascript">//change the file name to yours
-$.getJSON("city.geojson")  // The getJSON() method is used to get JSON data
+$.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")  // The getJSON() method is used to get JSON data
 .done(function(data) {
 
 });</code></pre>
@@ -214,7 +214,7 @@ function calcPropRadius(attributeValue) {
                   Again, a lot of things going on here. But you ONLY need to <b>adjust the popup content</b> (as we did before) and <b>the scale factor</b> (depending on the value and map scale) for making your own maps. And of course, <b>customize the colors and styles of the circles</b> as you like.</li>
 
                 <li>Next, we will call the defined functions in the loading data portion to apply them. <b>MODIFY</b> the getJSON function to add the data processing and symbol drawing functions we just defined:
-                <pre><code class="language-javascript">$.getJSON("city.geojson")
+                <pre><code class="language-javascript">$.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")
 .done(function(data) {
     var info = processData(data);
     createPropSymbols(info.timestamps, data);
@@ -274,7 +274,7 @@ function calcPropRadius(attributeValue) {
   }</code></pre></li>
                   <li>For your own data, you will need to change the <code>step</code> value to match the interval between adjacent timestamps, and also  change the <b>label texts</b>.</li>
                     <li>Then, <b>MODIFY</b> the getJSON function to add the slider creation function:
-                <pre><code class="language-javascript">$.getJSON("city.geojson")
+                <pre><code class="language-javascript">$.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")
 .done(function(data) {
     var info = processData(data);
     createPropSymbols(info.timestamps, data);
