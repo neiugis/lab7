@@ -98,14 +98,23 @@ crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
 integrity=&quot;sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=&quot;
 crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</code></pre></li>
 
-                    <li>This time, we use the JQuery function <code>getJSON()</code> to load the GeoJSON data directly. A <code>$</code> sign is used to define/access jQuery. Place the following lines AFTER adding the tile layer. Note you may need to change the name of the geojson file to match yours:
-                         <pre><code class="language-javascript">//change the file name to yours
+                         
+                    <li>This time, we use a JQuery function <code>getJSON()</code> to load the GeoJSON data directly. However, this function requires a <b>hosted absolute url</b> of the geojson file. To do this:
+                        <ul>
+                            <li>Upload the geojson file to GitHub first - start a new repository where you will publish your map.</li>
+                            <li>Next, click the geojson file in the repository and select <b>Raw</b> to copy the hosted link of the geojson file (see the demonstration below). Note that only the raw link to the geojson file works as an absolute url.
+                            </li>
+                        </ul>
+                         <center><img src="img/rawgit.gif" width=100%></center></li>
+                         
+                    <li>To use the <code>getJSON()</code> function, a <code>$</code> sign is used to define/access jQuery. Place the following lines AFTER adding the tile layer. Note you may need to <b>change the url of the geojson file</b> to match yours:
+                         <pre><code class="language-javascript">//change the file url to match yours
 $.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")  // The getJSON() method is used to get JSON data
 .done(function(data) {
 
 });</code></pre>
                     </li>
-                    <li>The data wouldn't show up on the map at this point. We will define how to draw the data in the following steps. </li>
+                    <li>The data doesn't show up on the map at this point. We will define how to draw the data in the following steps. </li>
 
                      <li>We first define a function to process the data to acquire the timestamps (the year columns) and the maximum and minimum population values to be used for creating the legend (extra credit question).
                          <br>Add the function below (you may name the function differently) following the loading data portion:
