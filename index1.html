@@ -56,11 +56,11 @@
                   <p><a id="overview" title="Overview" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Overview</h3>
                   <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet and <a href="https://www.w3schools.com/jquery/jquery_intro.asp" target="_blank">JQuery</a> (another JS library). This lab exercise is modified from <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
-                    <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with similar structure to create a time series proportional symbol map. I am always happy to explain in more details if you are interested in learning the syntax.</p>
+                    <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with a similar structure. I am always happy to explain in more details if you are interested in learning the syntax.</p>
                     <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom. And you will need to apply some of the data processing skills introduced in Lab 6, <i>e.g., table join, polygon centroid,</i> to put the deliverable data together.</p>
 <!--                    <h3 >IMPORTANT: Please use <span style="color: red">Firefox</span> to test the results!</h3>-->
 
-                    <p>*********************************************************************************</p>
+                    <p>*******************************************************************************************************************</p>
 
                   <p><a id="data" title="Prepare Data" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Prepare Time Series Data</h3>
@@ -71,14 +71,14 @@
                     <ul>
                         <li>Click <a href="https://drive.google.com/file/d/0BzvZaHCgmEmNTTVBRnZyQjRtVnM/view?usp=sharing" target="_blank" style="font-weight:bold">here</a> to download the example data. Spend some time to make sure you understand the data structure.
                             <br><i>For the deliverables, you will create a time series tabular data of Zika outbreak in the U.S. from separate data files (link provided). Note <b>the timestamp columns should be placed in chronological order from left to right</b></i>. </li>
-                        <li>In the previous lab, we introduced how to display csv table with coordinate information as points in QGIS. We are introducing an online tool this time, which may come in handy when other GIS processing (e.g., table join, simplify geometry) is not required. </li>
+                        <li>In the previous lab, we introduced how to display a csv table with coordinate information as points in QGIS. We are introducing an online tool this time, which may come in handy when other GIS processing (e.g., table join, simplify geometry) is not required. </li>
                             <li>In your web browser, go to <a href="http://geojson.io" target="_blank">geojson.io</a>, select <b>Open - File</b> (see image below) to open the csv file you have just downloaded. </li>
                         <center><img src="img/open.png" width=98%></center>
-                        <li>The data, <i>i.e., 15 cities</i>, should have been loaded as points/markers.</li>
+                        <li>The data, <i>i.e., 15 U.S. cities</i>, should have been loaded as points/markers to the site.</li>
                         <li>Next, click <b>Save - GeoJSON</b> to save the data as a geojson file to your lab 7 folder.</li>
-                        <center><img src="img/sve.png" width=95%></center>
+                        <center><img src="img/sve.png" width=99%></center>
 
-                        <li>Since we use a JQuery function to read/parse the data this time, we can keep the .geojson file for mapping - <b>there is NO need to save it as a .js file</b>.</li>
+                        <li>Since we use a JQuery function to read/parse the data this time, we can keep the .geojson file for mapping - <span style="color: red"><b>there is NO need to save it as a .js file</b></span>.</li>
 
                     </ul>
 
