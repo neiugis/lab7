@@ -281,7 +281,7 @@ function calcPropRadius(attributeValue) {
     }
     temporalLegend.addTo(map);
   }</code></pre></li>
-                  <li>For your own data, you will need to change the <code>step</code> value to match the interval between adjacent timestamps, and also  change the <b>label texts</b>.</li>
+                  <li>For your own data, you will need to change the <code>step</code> value to match the <b>interval</b> between adjacent timestamps (10 in this example), and also  change the <b>label texts</b>.</li>
                     <li>Then, <b>MODIFY</b> the getJSON function to add the slider creation function:
                 <pre><code class="language-javascript">$.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")
 .done(function(data) {
