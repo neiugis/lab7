@@ -34,6 +34,83 @@
           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
       </script>
+        
+         <style>
+            .code-container {
+            position: relative; /* Allows the button to be positioned inside the container */
+            background-color: #f7f7f8;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: auto; /* Ensures scroll if content exceeds width */
+        }
+
+        /* Style for the pre and code block */
+        .code-container pre {
+            margin: 0;
+            background: none;
+            border: 1px solid #f7f7f8;
+            padding: 0px 0 0 0; /* Add padding to the top for the button */
+            white-space: pre-wrap;  /* Enable line wrapping */
+            word-wrap: break-word;  /* Allow breaking long words */
+            overflow-wrap: break-word; /* Break long words in modern browsers */
+            font-size: 14px;
+            overflow-x: auto; /* Allow horizontal scroll if needed */
+        }
+
+        /* Style for the copy button */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #566573;
+            color: #fdfefe;
+            border: none;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Tooltip styling */
+        .copy-btn[data-tooltip]::after {
+            content: attr(data-tooltip); /* Display the tooltip text */
+            position: absolute;
+            bottom: 125%; /* Position above the button */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333; /* Dark background for the tooltip */
+            color: #fff; /* White text color */
+            padding: 5px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0; /* Initially hidden */
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 100; /* Ensure it appears above other elements */
+        }
+
+        /* Show the tooltip on hover */
+        .copy-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Icon inside the button */
+        .copy-btn i {
+            margin-right: 5px; /* Space between the icon and text */
+        }
+
+        /* Change background color when hovering over the button */
+        .copy-btn:hover {
+            background-color: #566573;
+        }
+        
+        </style>
 
     </head>
 
@@ -331,6 +408,30 @@ function calcPropRadius(attributeValue) {
           </footer>
 
             <script src="prism.js"></script>
+            
+                <script>
+            function copyToClipboard(button) {
+                // Find the code block within the same container as the button
+                const codeContainer = button.closest('.code-container');
+                const codeText = codeContainer.querySelector('pre code').innerText;
+
+                // Copy the code text to the clipboard
+                navigator.clipboard.writeText(codeText).then(() => {
+                    // Change the button text to "Copied!" on success
+                    button.innerHTML = ' <i class="fa-solid fa-check"></i> <strong>Copied!</strong>';
+                    button.style.backgroundColor = '#6cbf43'; // Green background for success
+
+                    // Reset the button text and background color after 2 seconds
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="fa-regular fa-copy"></i> <strong>Copy code</strong>';
+                        button.style.backgroundColor = '#566573'; // Reset to original color
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy:', err);
+                });
+            }
+            </script>
+            
         </article>
      </body>
 </html>
