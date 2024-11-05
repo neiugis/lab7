@@ -23,6 +23,37 @@
       <style>
           html, body { margin: 0; padding: 0; height: 100%; }
           #map { min-height: 100%; }
+          
+          
+          
+.legend, .temporal-legend {
+   		padding: 6px 15px;
+    	font: 14px/16px Arial, Helvetica, sans-serif;
+   		background: white;
+    	background: rgba(255,255,255,0.8);
+    	box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    	border-radius: 5px;
+	}
+	#legendTitle {
+  	  	text-align: center;
+   	 	margin-bottom: 15px;
+   		font-variant: small-caps;
+	}
+	.symbolsContainer {
+    	float: left;
+		margin-left: 50px;
+	}
+	.legendCircle {
+     	border-radius:50%; 
+     	border: 2px solid #501e65; 
+     	background: rgba(80, 30, 101, .5);
+	 	display: inline-block;
+	}
+	.legendValue {
+    	position: absolute;
+    	right: 8px;
+	}
+                               
 
       </style>
   </head>
@@ -50,6 +81,7 @@
                 var info = processData(data);
                 createPropSymbols(info.timestamps, data);
                 createSliderUI(info.timestamps);
+                 createLegend(info.min,info.max);
             });
 
           function processData(data) {
@@ -191,7 +223,63 @@
         }
           
               
+function createLegend(min, max) {
+		 
+		if (min < 10) {	
+			min = 10; 
+		}
 
+        		function roundNumber(inNumber) {
+
+				return (Math.round(inNumber/10) * 10);  
+		}
+        
+		var legend = L.control( { position: 'bottomright'} );
+
+		legend.onAdd = function(map) {
+
+		var legendContainer = L.DomUtil.create("div", "legend");  
+		var symbolsContainer = L.DomUtil.create("div", "symbolsContainer");
+		var classes = [roundNumber(min), roundNumber((max-min)/2), roundNumber(max)]; 
+		var legendCircle;  
+		var lastRadius = 0;
+		var currentRadius;
+		var margin;
+
+		L.DomEvent.addListener(legendContainer, 'mousedown', function(e) { 
+			L.DomEvent.stopPropagation(e); 
+		});  
+
+		$(legendContainer).append("<h2 id='legendTitle'>Total Population</h2>");
+		
+		for (var i = 0; i <= classes.length-1; i++) {  
+
+			legendCircle = L.DomUtil.create("div", "legendCircle");  
+			
+			currentRadius = calcPropRadius(classes[i]);
+			
+			margin = -currentRadius - lastRadius - 5;
+
+			$(legendCircle).attr("style", "width: " + currentRadius*2 + 
+				"px; height: " + currentRadius*2 + 
+				"px; margin-left: " + margin + "px" );				
+			$(legendCircle).append("<span class='legendValue'>"+classes[i]+"</span>");
+
+			$(symbolsContainer).append(legendCircle);
+
+			lastRadius = currentRadius;
+
+		}
+
+		$(legendContainer).append(symbolsContainer); 
+
+		return legendContainer; 
+
+		};
+
+		legend.addTo(map);  
+}
+                        
 
       </script>
 
