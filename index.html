@@ -409,7 +409,7 @@ $.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson"
                   <h3><i class="fa fa-paint-brush"></i> Add a Legend</h3>
                     <p>We are almost there! The last step is to add a legend for the proportional symbols.</p>
                     <ul>
-                        <li>We will first define the <code>createLegend()</code> function.
+                        <li>We will first define the <code>createLegend()</code> function. Add the function BELOW time slider functions. The function creates a legend using the minimum, half-maximum, and maximum symbol sizes, with their corresponding rounded values as labels.
                             <div class="code-container">
                                     <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>                               
                                <pre><code class="language-js">    
@@ -469,7 +469,7 @@ function createLegend(min, max) {
 
 		legend.addTo(map);  
                         </code></pre></div></li>
-                        <li>Next, we will define the style of the legend. Add the lines below in the <code>style</code> section of the <code>head</code> section.
+                        <li>Next, we will define the styles of the legend. Add the lines below in the <code>style</code> section of the <code>head</code> section.
                             <div class="code-container">
                                
                             <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
@@ -517,8 +517,10 @@ $.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson"
     createSliderUI(info.timestamps);
     createLegend(info.min,info.max);
 });</code></pre></div></li>
-                    </ul>
-
+                        
+                        <li>Your map should be displayed as proportional symbols with the first timestamp's data at this point (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/symbol.html" target="_blank">sample code</a>):</li>
+                <iframe src="map/symbol.html" width=98% height=520 frameborder=0></iframe></ul>
+             
                   <p><a id="deliverable" title="Deliverables" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Deliverables</h3>
                      <p>For the deliverables, simply host your map via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files</b> to the repository!!!) and submit the url through <a href="https://neiu.desire2learn.com/d2l/lms/dropbox/admin/mark/folder_submissions_users.d2l?db=237082&ou=3020560" target="_blank">D2L</a>.  <br>
