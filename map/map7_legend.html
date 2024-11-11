@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
       <meta charset="utf-8">
-      <title>Lab 7</title>
+      <title>Lab 7 - Ting copyright</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -68,7 +68,7 @@
             });
 
          L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-           attribution: 'Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.',
+           attribution: 'Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.', //tl
            maxZoom: 11,
            minZoom: 4
          }).addTo(map);
@@ -175,7 +175,7 @@
             // calculate the radius of the proportional symbols based on area
             function calcPropRadius(attributeValue) {
 
-              var scaleFactor = 0.001;   // the scale factor is used to scale the values; the units of the radius are in meters
+              var scaleFactor = 0.001;   // the scale factor is used to scale the values; the units of the radius are in meters, tl
                                          // you may determine the scale factor accordingly based on the range of the values and the mapping scale
               var area = attributeValue * scaleFactor;
 
@@ -271,7 +271,7 @@ function createLegend(min, max) {
 
 		$(legendContainer).append(symbolsContainer); 
 
-		return legendContainer; 
+		return legendContainer; //tl
 
 		};
 
