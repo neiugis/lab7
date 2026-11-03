@@ -121,7 +121,7 @@
                 <div class="wrap">
 
                    <h1>Lab 7. Time Series Proportional Symbols <i class="fa fa-leaf"></i></h1>
-                  <h3 style="color:#F6F90A"><b><i class="fa fa-spinner fa-spin"></i>  Due: 11:59 pm, Wednesday, 11/20</b></h3>
+                  <h3 style="color:#F6F90A"><b><i class="fa fa-spinner fa-spin"></i>  Due: 11:59 pm, Wednesday, 11/18</b></h3>
                 </div>
             </div>
 
@@ -132,90 +132,66 @@
 
                   <p><a id="overview" title="Overview" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Overview</h3>
-                  <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet and <a href="https://www.w3schools.com/jquery/jquery_intro.asp" target="_blank">JQuery</a> (another JS library). This lab exercise is modified from <a href="http://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
-                    <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with a similar structure. I am always happy to explain in more details if you are interested in learning the syntax.</p>
-                    <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully and submit your complete time slider map (there is no additional deliverable for lab 7). </p>
-<!--                    <h3 >IMPORTANT: Please use <span style="color: red">Firefox</span> to test the results!</h3>-->
+                  <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet. A time slider and a play button allow the map reader move through the years. This lab exercise is modified from <a href="https://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
+                    <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with a similar structure. I am always happy to explain in more detail if you are interested in learning the syntax.</p>
+                    <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully (including the explanations of each step) and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom.</p>
 
                     <p>*******************************************************************************************************************</p>
 
                   <p><a id="data" title="Prepare Data" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Prepare Time Series Data</h3>
 
-                    <p>The first step for the spatiotemporal visualization is to create a time series dataset. As an example, I'll map <b>population dynamics of fifteen major U.S. cities</b>. Below is an example of what the dataset looks like (a <b>.csv</b> file): </p>
-                    <center><img src="img/table.png" width=97%></center>
+                    <p>The first step for the spatiotemporal visualization is to create a time series dataset. As an example, I will map the <b>population dynamics of fifteen major U.S. cities</b>. Below is an example of what the dataset looks like (a <b>.csv</b> file). Each row is a city, and each year is a column: </p>
+                    <center><img src="img/table.png" width=97% alt="A table with one row for each city. The columns are id, name, latitude, longitude, and the population for each year from 1950 to 2010."></center>
 
                     <ul>
-                        <li>Click <a href="https://github.com/neiugis/lab7/blob/gh-pages/citypop.csv" target="_blank" style="font-weight:bold">here</a> to download the example data. Spend some time to make sure you understand the data structure.
-                            <br> </li>
-                        <li>We will introduce an online platform for displaying points with coordinates this time, which may come in handy when other GIS processing (e.g., table join, simplify geometry) is not required. </li>
-                            <li>In your web browser, go to <a href="http://geojson.io" target="_blank">geojson.io</a>, select <b>Open</b> (see image below) to open the csv file you have just downloaded. </li>
-                        <center><img src="img/open.png" width=98%></center>
-                        <li>The data, <i>i.e., 15 U.S. cities</i>, should have been loaded as points/markers to the site.</li>
-                        <li>Next, click <b>Save - GeoJSON</b> to save the data as a geojson file to your lab 7 folder.</li>
-                        <center><img src="img/sve.png" width=99%></center>
-
-                        <li>Since we use a JQuery function to read/parse the data this time, we can keep the .geojson file for mapping - <span style="color: red"><b>there is NO need to save it as a .js file</b></span>.</li>
-
+                        <li>Click <a href="https://github.com/neiugis/lab7/blob/gh-pages/citypop.csv" target="_blank" style="font-weight:bold">here</a> to download the example data. Spend some time to make sure you understand the data structure.</li>
+                        <li>We will use an online platform for turning points with coordinates into GeoJSON. It may come in handy when other GIS processing (e.g., table join, simplify geometry) is not required.</li>
+                        <li>In your web browser, go to <a href="https://geojson.io" target="_blank">geojson.io</a>, click <b>Import</b>, and select the csv file you have just downloaded.</li>
+                        <li>In the import window (see image below):
+                            <ul>
+                                <li>Import the file as <b>Coordinates</b>.</li>
+                                <li>Choose <b>,</b> (comma) as the <b>Delimiter</b>.</li>
+                                <li>Match the coordinate fields: <b>latitude</b> for latitude, and <b>longitude</b> for longitude.</li>
+                                <li>Click <b>Import</b>.</li>
+                            </ul></li>
+                        <!-- TODO: save the import screenshot as img/import.png -->
+                        <center><img src="img/import.png" width=98% alt="The import window in geojson.io, with Coordinates selected, comma as the delimiter, and the latitude and longitude fields matched"></center>
+                        <li>The data, <i>i.e., 15 U.S. cities</i>, should be loaded as points/markers on the site.</li>
+                        <li>Next, click <b>Export</b>, choose <b>GeoJSON</b> as the file format, and click <b>Export</b> to save the geojson file to your lab 7 folder.</li>
+                        <!-- TODO: save the export screenshot as img/export.png -->
+                        <center><img src="img/export.png" width=98% alt="The export window in geojson.io, with GeoJSON selected as the file format"></center>
+                        <li>Use your code editor to open the GeoJSON file, and add the variable definition line at the very beginning, as we have been doing. Name the variable <b>data</b> (<code>var data = </code>), because the code below uses that name:
+<div class="code-container">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+var data = </code></pre></div>
+                        Save the changed GeoJSON as <code>citypop.js</code> to your lab 7 folder. Note the file extension is <b>.js</b>.</li>
                     </ul>
 
                     <p><a id="proportional" title="Proportional Symbol Map" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Proportional Symbol Map</h3>
-                    <p>We will map the city population data as proportional symbols. Not sure what is a proportional symbol map? - click <a href="http://pro.arcgis.com/en/pro-app/help/mapping/layer-properties/proportional-symbology.htm" target="_blank">here</a> to learn more.</p>
+                    <p>We will map the city population data as proportional symbols. Not sure what a proportional symbol map is? Click <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/layer-properties/proportional-symbology.htm" target="_blank">here</a> to learn more.</p>
                      <ul>
-                      <li>First, open your code editor and <b>set up the basemap to show the contiguous U.S. in fullscreen mode</b>, and save the document as <code>map7.html</code> to your lab 7 folder, where the geojson file was saved.
-                        </li>
+                      <li>First, open your code editor and <b>set up the basemap to show the contiguous U.S. in fullscreen mode</b>. Save the document as <code>map7.html</code> to your lab 7 folder, where <code>citypop.js</code> is saved.</li>
 
-                    <li>Next, reference the JQuery libraries so that we could use the JQuery functions (add to the <code>head</code> section):
+                    <li>In the <code>head</code> section, following the Leaflet CSS and JS libraries, include the line below so that we can use the data in <code>citypop.js</code>. Since the file is in the same folder as the map HTML file, we can reference it by its file name alone:
 <div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js">
-&lt;script src=&quot;https://code.jquery.com/jquery-3.5.1.min.js&quot;
-integrity=&quot;sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=&quot;
-crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+&lt;script src="citypop.js"&gt;&lt;/script&gt;</code></pre></div></li>
 
-&lt;script src=&quot;https://code.jquery.com/ui/1.12.1/jquery-ui.min.js&quot;
-integrity=&quot;sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=&quot;
-crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</code></pre></div></li>
-
-                         
-                    <li>This time, we use a JQuery function <code>getJSON()</code> to load the GeoJSON data directly. However, this function requires a <b>hosted absolute url</b> of the geojson file. To do this:
-                        <ul>
-                            <li>Upload the geojson file to GitHub first - start a new repository where you will publish your map.</li>
-                            <li>Next, click the geojson file in the repository and select <b>Raw</b> to copy the hosted link of the geojson file (see the demonstration below). Note that only the raw link to the geojson file works as an absolute url.
-                            </li>
-                        </ul>
-                         <center><img src="img/rawgit.gif" width=100%></center></li>
-                         
-                    <li>To use the <code>getJSON()</code> function, a <code>$</code> sign is used to define/access jQuery. Place the following lines AFTER adding the tile layer. Note you may need to <b>change the url of the geojson file</b> to match yours:
+                     <li>Next, we define a function to process the data. It finds the timestamps (the year columns) and the maximum and minimum population values, which we will use for the legend.
+                         <br>Add the function below in the <code>script</code> section, AFTER adding the tile layer (you may name the function differently):
 <div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js">
-//change the file url to match yours
-$.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")  // The getJSON() method is used to get JSON data
-.done(function(data) {
-
-});</code></pre></div>
-                    </li>
-                    <li>The data won't show up on the map at this point. We will define how to draw the data in the following steps. </li>
-
-                     <li>We first define a function to process the data to acquire the timestamps (the year columns) and the maximum and minimum population values to be used for creating the legend.
-                         <br>Add the function below (you may name the function differently) following the loading data portion:
-<div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
 function processData(data) {
   // First, initialize the variables to hold the timestamps and min/max population values
   var timestamps = [];  // square brackets to define an array of data
                         // because there are multiple timestamps
-  var	min = Infinity; // for the min, begin with the largest possible value - infinity
-  var	max = -Infinity;// for the max, begin with the smallest possible value - negative infinity
+  var min = Infinity;   // for the min, begin with the largest possible value - infinity
+  var max = -Infinity;  // for the max, begin with the smallest possible value - negative infinity
 
   // Go through each row/feature of the data table
   // Note data is the variable name in the function definition - processData(data)
@@ -228,21 +204,21 @@ function processData(data) {
                attribute != 'name' &amp;&amp;
                attribute != 'latitude' &amp;&amp;
                attribute != 'longitude' )   // != means NOT EQUAL TO
-                                      // These columns are NOT recorded
-                                      // Modify this part when mapping your own data
+                                            // These columns are NOT timestamps, so they are skipped
+                                            // Modify this part when mapping your own data
           {
-              if ( $.inArray(attribute,timestamps) ===  -1) { // JQuery in.Array() method searches for a specified value within an array and return its index (or -1 if not found)
-                                                // here, the new timestamp is only added when it is not already in the array
-                                                // triple equals === compares both type and value
+              if ( timestamps.indexOf(attribute) === -1 ) { // indexOf() searches an array for a value and returns its position (or -1 if not found)
+                                                            // here, the new timestamp is only added when it is not already in the array
+                                                            // triple equals === compares both type and value
 
                   timestamps.push(attribute);  // The JS push() method adds new items to the end of an array
-                                               // and returns the new length of the array
               }
-              if (properties[attribute] &lt; min) {
-                  min = properties[attribute]; // record/update the current smaller values as the min
+              var value = Number(properties[attribute]); // Number() makes sure the value is a number, not text
+              if (value &lt; min) {
+                  min = value; // record/update the current smaller values as the min
               }
-              if (properties[attribute] &gt; max) {
-                  max = properties[attribute]; // record/update the current larger values as the max
+              if (value &gt; max) {
+                  max = value; // record/update the current larger values as the max
               }
           }
       }
@@ -254,13 +230,13 @@ function processData(data) {
   }
 }</code></pre></div>
                          </li>
-                        <li>Read the comment lines to learn more about what this function does exactly. It looks like a lot going on. <b>But when you map your own data, the only places you need to change are the attribute/column names that are NOT supposed to be mapped ('id', 'name', 'latitude', 'longitude' in this case).</b> </li>
+                        <li>Read the comment lines to learn more about what this function does exactly. It looks like a lot is going on. <b>But when you map your own data, the only places you need to change are the attribute/column names that are NOT supposed to be mapped ('id', 'name', 'latitude', 'longitude' in this case).</b></li>
                          <li>Next, add the functions below to draw proportional symbols (following the processing data portion):
 <div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+var cities;   // the city circles; more than one function uses them, so we define the variable here
+
 // The function to draw the proportional symbols
 function createPropSymbols(timestamps, data) {
 
@@ -288,19 +264,20 @@ function createPropSymbols(timestamps, data) {
   }).addTo(map);
 
   updatePropSymbols(timestamps[0]); // this function is defined below
-                                  // When loaded, the map will first show proportional symbols with the first timestamp's data
+                                    // When loaded, the map will first show proportional symbols with the first timestamp's data
 }
 
 // The function to update/resize each circle marker according to a value in the time series
 function updatePropSymbols(timestamp) {
 
-  cities.eachLayer(function(layer) {  // eachLayer() is an Leaflet function to iterate over the layers/points of the map
+  cities.eachLayer(function(layer) {  // eachLayer() is a Leaflet function to go through the layers/points of the map one by one
 
       var props = layer.feature.properties;   // attributes
-      var radius = calcPropRadius(props[timestamp]); // circle radius, calculation function defined below
+      var radius = calcPropRadius(Number(props[timestamp])); // circle radius, calculation function defined below
 
       // pop-up information (when mouseover) for each city is also defined here
-      var popupContent = props.name + ' ' + timestamp + ' population: ' + String(props[timestamp]) ;
+      // toLocaleString() adds commas to the number, for example 3620962 becomes 3,620,962
+      var popupContent = props.name + ' ' + timestamp + ' population: ' + Number(props[timestamp]).toLocaleString();
 
       layer.setRadius(radius);  // Leaflet method for setting the radius of a circle
       layer.bindPopup(popupContent, { offset: new L.Point(0,-radius) }); // bind the popup content, with an offset
@@ -310,232 +287,315 @@ function updatePropSymbols(timestamp) {
 // calculate the radius of the proportional symbols based on area
 function calcPropRadius(attributeValue) {
 
-  var scaleFactor = 0.001;   // the scale factor is used to scale the values; the units of the radius are in meters
+  var scaleFactor = 0.001;   // the scale factor is used to scale the values; the radius of a circle marker is in pixels
                              // you may determine the scale factor accordingly based on the range of the values and the mapping scale
   var area = attributeValue * scaleFactor;
 
-  return Math.sqrt(area/Math.PI);  // the function return the radius of the circle to be used in the updatePropSymbols()
-}
-</code></pre></div>
-                  Again, a lot of things going on here. But you ONLY need to <b>adjust the popup content</b> (as we did before) and <b>the scale factor</b> (depending on the value and map scale) for making your own maps. And of course, <b>customize the colors and styles of the circles</b> as you like.</li>
+  return Math.sqrt(area/Math.PI);  // the function returns the radius of the circle to be used in the updatePropSymbols()
+}</code></pre></div>
+                  Again, a lot is going on here. But you ONLY need to <b>adjust the popup content</b> (as we did before) and <b>the scale factor</b> (depending on the values and the map scale) for making your own maps. And of course, <b>customize the colors and styles of the circles</b> as you like.</li>
 
-                <li>Next, we will call the defined functions in the loading data portion to apply them. <b>MODIFY</b> the getJSON function to add the data processing and symbol drawing functions we just defined:
+                <li>So far, we have only <b>defined</b> the functions. A function does nothing until it is <b>called</b> (run). Add the lines below right AFTER the tile layer, ABOVE the functions. It is fine in JavaScript to call a function that is defined further down in the script:
 <div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js">
-$.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")
-.done(function(data) {
-    var info = processData(data);
-    createPropSymbols(info.timestamps, data);
-});</code></pre></div></li>
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+// Run the functions defined below, in this order
+var info = processData(data);   // data is the variable defined in citypop.js
+createPropSymbols(info.timestamps, data);</code></pre></div></li>
 
-                <li>Your map should be displayed as proportional symbols with the first timestamp's data at this point (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/symbol.html" target="_blank">sample code</a>):</li>
-                <iframe src="map/symbol.html" width=98% height=520 frameborder=0></iframe></ul>
+                <li>Your map should display proportional symbols with the first timestamp's data at this point (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/symbol.html" target="_blank">sample code</a>):</li>
+                <iframe src="map/symbol.html" width=98% height=520 frameborder=0 title="Sample map: proportional symbols for 1950"></iframe></ul>
 
                   <p><a id="slider" title="Time Slider" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Add a Time Slider</h3>
-                  <p>Now we will add the time slider, with labels, to animate the temporal data. For this lab, we will use the <a href="https://www.w3schools.com/howto/howto_js_rangeslider.asp" target="_blank">HTML5 range type</a> to create a simple slider.</p>
+                  <p>Now we will add the time slider, with a year label, to move through the temporal data. For this lab, we will use the <a href="https://www.w3schools.com/howto/howto_js_rangeslider.asp" target="_blank">HTML5 range type</a> to create a simple slider.</p>
                   <ul><li>Add the functions below AFTER the drawing symbol portion:
 <div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js"> 
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+var slider;   // the slider; more than one function uses it, so we define the variable here
+
 function createSliderUI(timestamps) {
-  var sliderControl = L.control({ position: 'bottomleft'} ); // position of the slider
-                    // Another use of L.control :)
+  var sliderControl = L.control({ position: 'bottomleft' }); // position of the slider
+                                                            // Another use of L.control :)
   sliderControl.onAdd = function(map) {
-    //initialize a range slider with mousedown control
-      var slider = L.DomUtil.create("input", "range-slider");
-      L.DomEvent.addListener(slider, 'mousedown', function(e) {
-          L.DomEvent.stopPropagation(e);
+      // a box (div) to hold the slider and the year label
+      var container = L.DomUtil.create("div", "time-control");
+
+      // the slider, an HTML range input
+      slider = L.DomUtil.create("input", "range-slider", container);
+      slider.type = "range";
+      slider.min = 0;                      // position 0 is the first timestamp
+      slider.max = timestamps.length - 1;  // the last position is the last timestamp
+      slider.step = 1;                     // the slider moves one timestamp at a time
+      slider.value = 0;                    // start at the first timestamp
+      slider.setAttribute("aria-label", "Year");  // the name a screen reader reads aloud
+
+      // the year label, shown to the right of the slider
+      var label = L.DomUtil.create("output", "temporal-legend", container);
+      label.textContent = timestamps[0];
+
+      // when the slider moves, show the timestamp at the new position
+      slider.addEventListener("input", function() {
+          showTimestamp(timestamps[slider.value]);
       });
 
-    // Define the labels of the time slider as an array of strings
-    // Modify this for your data
-    var labels = ["1950", "1960","1970","1980", "1990", "2000","2010"];
-
-    $(slider)
-        .attr({
-          'type':'range',
-          'max': timestamps[timestamps.length-1],
-          'min':timestamps[0],
-          'step': 10, // Change this to match the numeric interval between adjacent timestamps
-          'value': String(timestamps[0])
-        })
-        .on('input change', function() {
-            updatePropSymbols($(this).val().toString()); // automatic update the map for the timestamp
-            var i = $.inArray(this.value,timestamps);
-            $(".temporal-legend").text(labels[i]); // automatic update the label for the timestamp
-        });
-    return slider;
-  }
+      return container;
+  };
   sliderControl.addTo(map);
-  createTimeLabel("1950"); //The starting timestamp label
-  }
+}
 
-
-  // Add labels to the time slider when the map first loaded
-  function createTimeLabel(startTimestamp) {
-    var temporalLegend = L.control({position: 'bottomleft' }); // same position as the slider
-                       // One more use of L.control !!
-    temporalLegend.onAdd = function(map) {
-      var output = L.DomUtil.create("output", "temporal-legend");
-      $(output).text(startTimestamp);
-      return output;
-    }
-    temporalLegend.addTo(map);
-  }</code></pre></div></li>
-                  <li>For your own data, you will need to change the <code>step</code> value to match the <b>interval</b> between adjacent timestamps (10 in this example), and also  change the <b>label texts</b>.</li>
-                    <li>Then, <b>MODIFY</b> the getJSON function to add the slider creation function:
+// Show one timestamp: resize the circles and update the year label
+function showTimestamp(timestamp) {
+  updatePropSymbols(timestamp);
+  document.querySelector(".temporal-legend").textContent = timestamp;
+}</code></pre></div></li>
+                  <li><b>You do not need to change this function for your own data.</b> The slider gets the timestamps from <code>processData()</code>, so it works for any number of years. It also works when the years are not evenly spaced (for example, 2000, 2010, 2020, 2023).</li>
+                  <li>Next, we will define the style of the slider box. Add the lines below in the <code>style</code> section of the <code>head</code> section:
 <div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js">
-$.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")
-.done(function(data) {
-    var info = processData(data);
-    createPropSymbols(info.timestamps, data);
-    createSliderUI(info.timestamps);
-});</code></pre></div></li>
-                    <li>The simple slider is added to the map, at your defined position (I used bottom left) (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/slider.html" target="_blank">sample code</a>):</li>
-                <iframe  src="map/slider.html" width=98% height=520 frameborder=0></iframe></ul>
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-css">
+.time-control {
+    display: flex;         /* place the items in the box in one row */
+    align-items: center;
+    gap: 8px;              /* space between the items */
+    padding: 6px 15px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.temporal-legend {
+    font-weight: bold;
+}</code></pre></div></li>
+                    <li>Then, <b>add one line</b> to the function calls below the tile layer, to create the slider:
+<div class="code-container">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+// Run the functions defined below, in this order
+var info = processData(data);   // data is the variable defined in citypop.js
+createPropSymbols(info.timestamps, data);
+createSliderUI(info.timestamps);</code></pre></div></li>
+                    <li><b>Test your map.</b> Save, refresh the browser, and drag the slider handle. Does anything else move?</li>
+                    <li>The whole map moves along with the handle. The mouse action on the slider also reaches the map underneath it, so the map is dragged too. To fix this, add the line below in <code>function createSliderUI()</code>, right AFTER the line that creates the box (<code>var container = ...</code>):
+<div class="code-container">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+L.DomEvent.disableClickPropagation(container); // clicks and drags on the box stay on the box and do not move the map</code></pre></div>
+                    Save and refresh. Now the slider moves, and the map stays still.</li>
+                    <li>The slider is added to the map, at your defined position (I used bottom left) (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/slider.html" target="_blank">sample code</a>):</li>
+                <iframe src="map/slider.html" width=98% height=520 frameborder=0 title="Sample map: proportional symbols with a time slider"></iframe></ul>
 
+                  <p><a id="play" title="Add a Play Button" class="toc-item"></a></p>
+                  <h3><i class="fa fa-paint-brush"></i> Add a Play Button</h3>
+                  <p>Next, we will add a play button to the slider so that map readers can click play to watch the change, and pause it at any year.</p>
+                  <ul><li>Add the function below AFTER the time slider functions:
+<div class="code-container">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+function createPlayButton(timestamps) {
+  var speed = 1000;   // time between steps in milliseconds (1000 = 1 second)
+                      // use a smaller number to play faster
+  var timer = null;   // holds the running animation; null means it is not playing
+
+  // create the button and place it in the slider box, in front of the slider
+  var button = L.DomUtil.create("button", "play-button");
+  button.textContent = "Play";
+  document.querySelector(".time-control").prepend(button);
+
+  // what happens when the button is clicked
+  button.addEventListener("click", function() {
+      if (timer !== null) {   // if the animation is playing, pause it
+          stopPlaying();
+          return;
+      }
+      if (Number(slider.value) === timestamps.length - 1) {   // at the last timestamp, start over
+          slider.value = 0;
+          showTimestamp(timestamps[0]);
+      }
+      button.textContent = "Pause";
+
+      // setInterval() runs the function inside it again and again, once every [speed] milliseconds
+      timer = setInterval(function() {
+          var next = Number(slider.value) + 1;   // the next position on the slider
+          slider.value = next;
+          showTimestamp(timestamps[next]);
+          if (next === timestamps.length - 1) {  // stop at the last timestamp
+              stopPlaying();
+          }
+      }, speed);
+  });
+
+  function stopPlaying() {
+      clearInterval(timer);   // clearInterval() stops the animation
+      timer = null;
+      button.textContent = "Play";
+  }
+}</code></pre></div></li>
+                  <li>The only place you may want to change is <b>the speed</b>. For example, <code>500</code> moves to the next year every half second.</li>
+                  <li>Add the lines below in the <code>style</code> section to style the button:
+<div class="code-container">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-css">
+.play-button {
+    font: inherit;
+    padding: 4px 12px;
+    cursor: pointer;
+}</code></pre></div></li>
+                  <li>Then, <b>add one line</b> to the function calls to create the button. It must come AFTER <code>createSliderUI()</code>, because the button is placed inside the slider box:
+<div class="code-container">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+// Run the functions defined below, in this order
+var info = processData(data);   // data is the variable defined in citypop.js
+createPropSymbols(info.timestamps, data);
+createSliderUI(info.timestamps);
+createPlayButton(info.timestamps);</code></pre></div></li>
+                  <li><b>Test your map.</b> Click <b>Play</b>. The map should step through the years and stop at the last year. Click <b>Pause</b> to stop it. Click <b>Play</b> at the last year to start over.</li>
+                  <li>We use a real HTML <code>button</code>, so the map reader can also use it with the keyboard: press <b>Tab</b> to reach the button, then press <b>Enter</b>. The slider works with the <b>arrow keys</b>, too. Try it! (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/play.html" target="_blank">sample code</a>)</li>
+                <iframe src="map/play.html" width=98% height=520 frameborder=0 title="Sample map: proportional symbols with a time slider and a play button"></iframe></ul>
 
                     <p><a id="legend" title="Add a Legend" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Add a Legend</h3>
                     <p>We are almost there! The last step is to add a legend for the proportional symbols.</p>
                     <ul>
-                        <li>We will first define the <code>createLegend()</code> function. Add the function BELOW time slider functions. The function creates a legend using the minimum, half-maximum, and maximum symbol sizes, with their corresponding rounded values as labels.
-                            <div class="code-container">
-                                    <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>                               
-                               <pre><code class="language-js">    
-function createLegend(min, max) {
-		 
-		if (min &lt; 10) {	
-			min = 10; 
-		}
-
-        		function roundNumber(inNumber) {
-
-				return (Math.round(inNumber/10) * 10);  
-		}
-        
-		var legend = L.control( { position: 'bottomright'} );
-
-		legend.onAdd = function(map) {
-
-		var legendContainer = L.DomUtil.create(&quot;div&quot;, &quot;legend&quot;);  
-		var symbolsContainer = L.DomUtil.create(&quot;div&quot;, &quot;symbolsContainer&quot;);
-		var classes = [roundNumber(min), roundNumber((max-min)/2), roundNumber(max)]; 
-		var legendCircle;  
-		var lastRadius = 0;
-		var currentRadius;
-		var margin;
-
-		L.DomEvent.addListener(legendContainer, 'mousedown', function(e) { 
-			L.DomEvent.stopPropagation(e); 
-		});  
-
-		$(legendContainer).append(&quot;&lt;h2 id='legendTitle'&gt;Total Population&lt;/h2&gt;&quot;);
-		
-		for (var i = 0; i &lt;= classes.length-1; i++) {  
-
-			legendCircle = L.DomUtil.create(&quot;div&quot;, &quot;legendCircle&quot;);  
-			
-			currentRadius = calcPropRadius(classes[i]);
-			
-			margin = -currentRadius - lastRadius - 5;
-
-			$(legendCircle).attr(&quot;style&quot;, &quot;width: &quot; + currentRadius*2 + 
-				&quot;px; height: &quot; + currentRadius*2 + 
-				&quot;px; margin-left: &quot; + margin + &quot;px&quot; );				
-			$(legendCircle).append(&quot;&lt;span class='legendValue'&gt;&quot;+classes[i]+&quot;&lt;/span&gt;&quot;);
-
-			$(symbolsContainer).append(legendCircle);
-
-			lastRadius = currentRadius;
-
-		}
-
-		$(legendContainer).append(symbolsContainer); 
-
-		return legendContainer; 
-
-		};
-
-		legend.addTo(map);  
-}
-                        </code></pre></div></li>
-                        <li>Next, we will define the styles of the legend. Add the lines below in the <code>style</code> section of the <code>head</code> section.
-                            <div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js">
-.legend, .temporal-legend {
-   		padding: 6px 15px;
-    	font: 14px/16px Arial, Helvetica, sans-serif;
-   		background: white;
-    	background: rgba(255,255,255,0.8);
-    	box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    	border-radius: 5px;
-	}
-	#legendTitle {
-  	  	text-align: center;
-   	 	margin-bottom: 15px;
-   		font-variant: small-caps;
-	}
-	.symbolsContainer {
-    	float: left;
-		margin-left: 50px;
-	}
-	.legendCircle {
-     	border-radius:50%; 
-     	border: 2px solid #501e65; 
-     	background: rgba(80, 30, 101, .5);
-	 	display: inline-block;
-	}
-	.legendValue {
-    	position: absolute;
-    	right: 8px;
-	}
-                               </code></pre></div>
-                        </li>
-                    <li>Then, <b>MODIFY</b> the getJSON function to add the <code>createLegend()</code> function:
+                        <li>Add the <code>createLegend()</code> function BELOW the play button function. The function creates a legend with three circle sizes: the minimum value, half of the range, and the maximum value. The values are rounded to two significant digits, so they are easy to read.
 <div class="code-container">
-                               
-                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="fa-regular fa-copy"></i> <b>Copy Code</b></button>
-                               
-                               <pre><code class="language-js">
-$.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson")
-.done(function(data) {
-    var info = processData(data);
-    createPropSymbols(info.timestamps, data);
-    createSliderUI(info.timestamps);
-    createLegend(info.min,info.max);
-});</code></pre></div></li>
-                        
-                        <li>Here is the final map! (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/map7_legend.html" target="_blank">sample code</a>):</li>
-                <iframe src="map/map7_legend.html" width=98% height=520 frameborder=0></iframe></ul>
-             
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+function createLegend(min, max) {
+
+    if (min &lt; 10) {
+        min = 10;
+    }
+
+    // round a number to two significant digits, for example 8175133 becomes 8200000
+    function roundNumber(inNumber) {
+        var unit = Math.pow(10, Math.floor(Math.log10(inNumber)) - 1);
+        return Math.round(inNumber / unit) * unit;
+    }
+
+    var legend = L.control( { position: 'bottomright'} );
+
+    legend.onAdd = function(map) {
+
+        var legendContainer = L.DomUtil.create("div", "legend");
+        L.DomEvent.disableClickPropagation(legendContainer);
+
+        // the legend title; change it to describe your data
+        legendContainer.innerHTML = "&lt;h2 id='legendTitle'&gt;Total Population&lt;/h2&gt;";
+
+        var symbolsContainer = L.DomUtil.create("div", "symbolsContainer", legendContainer);
+        var classes = [roundNumber(min), roundNumber((max-min)/2), roundNumber(max)]; // three example values
+        var lastRadius = 0;
+
+        for (var i = 0; i &lt; classes.length; i++) {
+
+            var legendCircle = L.DomUtil.create("div", "legendCircle", symbolsContainer);
+            var currentRadius = calcPropRadius(classes[i]);  // the same radius function as the map circles
+            var margin = -currentRadius - lastRadius - 5;
+
+            legendCircle.style.width = currentRadius*2 + "px";
+            legendCircle.style.height = currentRadius*2 + "px";
+            legendCircle.style.marginLeft = margin + "px";
+            legendCircle.innerHTML = "&lt;span class='legendValue'&gt;" + classes[i].toLocaleString() + "&lt;/span&gt;";
+
+            lastRadius = currentRadius;
+        }
+
+        return legendContainer;
+    };
+
+    legend.addTo(map);
+}</code></pre></div></li>
+                        <li>Change the <b>legend title</b> to describe your data. The legend circles use the same <code>calcPropRadius()</code> function as the map circles, so the sizes always match.</li>
+                        <li>Next, we will define the styles of the legend. Add the lines below in the <code>style</code> section of the <code>head</code> section. The <code>.legendCircle</code> colors should match the circle colors on your map:
+<div class="code-container">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-css">
+.legend {
+    padding: 6px 15px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+#legendTitle {
+    text-align: center;
+    margin-bottom: 15px;
+    font-variant: small-caps;
+}
+.symbolsContainer {
+    float: left;
+    margin-left: 50px;
+}
+.legendCircle {
+    border-radius: 50%;
+    border: 2px solid #501e65;
+    background: rgba(80, 30, 101, .5);
+    display: inline-block;
+}
+.legendValue {
+    position: absolute;
+    right: 8px;
+}</code></pre></div>
+                        </li>
+                    <li>Then, <b>add one line</b> to the function calls to create the legend:
+<div class="code-container">
+                            <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
+<pre><code class="language-js">
+// Run the functions defined below, in this order
+var info = processData(data);   // data is the variable defined in citypop.js
+createPropSymbols(info.timestamps, data);
+createSliderUI(info.timestamps);
+createPlayButton(info.timestamps);
+createLegend(info.min, info.max);</code></pre></div></li>
+
+                        <li>Here is the final map! (<a href="https://raw.githubusercontent.com/neiugis/lab7/gh-pages/map/map7_legend.html" target="_blank">sample code</a>)</li>
+                <iframe src="map/map7_legend.html" width=98% height=520 frameborder=0 title="Sample map: final map with time slider, play button, and legend"></iframe></ul><br>
+
                   <p><a id="deliverable" title="Deliverables" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Deliverables</h3>
-                     <p>For the deliverables, simply host your map via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files</b> to the repository!!!) and submit the url through <a href="https://neiu.desire2learn.com/d2l/lms/dropbox/admin/mark/folder_submissions_users.d2l?db=237082&ou=3020560" target="_blank">D2L</a>.  <br>
-
-                  <br>
-
-            <br><br>
+                     <p>For the deliverables, we use the same city data and add one more census year. You will create:</p>
+                    <ul>
+                        <li>A time series proportional symbol map of the same 15 cities, <mark>from 1950 to 2020</mark>. Look up the 2020 population of each city in <a href="https://www.census.gov/quickfacts/" target="_blank">Census QuickFacts</a>. Use the row <b>Population, Census, April 1, 2020</b>.</li>
+                        <li>To add the 2020 data, open <code>citypop.csv</code> in <b>Excel</b> or <b>Google Sheets</b>. Add a new column named <code>2020</code> after the 2010 column, and enter the 2020 population of each city. <b>Type the numbers without commas</b> (for example, <code>2746388</code>, not <code>2,746,388</code>).</li>
+                        <li>Save the table as a csv file again:
+                            <ul>
+                                <li><b>Excel:</b> select <b>File &gt; Save As</b>, and choose <b>CSV UTF-8 (Comma delimited) (*.csv)</b> as the file type.</li>
+                                <li><b>Google Sheets:</b> select <b>File &gt; Download &gt; Comma Separated Values (.csv)</b>.</li>
+                            </ul>
+                        Then repeat the geojson.io and <code>var data = </code> steps to create a new <code>citypop.js</code>.</li>
+                        <li><b>Change the circle colors</b> to colors of your choice, and make the legend circles match the map circles.</li>
+                        <li><b>Check your map:</b> drag the slider to the end. The label should show 2020, and all 15 circles should appear. If a circle disappears, check that city's 2020 value in <code>citypop.csv</code>. A comma inside the number or a missing value is the usual cause.</li>
+                        <li>Host your map via GitHub (Make sure to rename the html file as <code>index.html</code> and upload any <b>associated data files</b> to the repository!!!) and submit the url through <a href="https://neiu.desire2learn.com/d2l/lms/dropbox/admin/mark/folder_submissions_users.d2l?db=285634&ou=3048274" target="_blank">D2L</a>.</li> 
+                    </ul><br>
+                  <p><a id="rubric" title="Rubric" class="toc-item"></a></p>
+                  <h3><i class="fa fa-paint-brush"></i> Rubric</h3>
+                    <p>Your map is graded out of <b>50 points</b>.</p>
+                    <table>
+                        <thead>
+                            <tr><th>Criteria</th><th>What full credit looks like</th><th>Points</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><b>2020 data</b></td><td>The map includes 2020. The 2020 values for all 15 cities match the 2020 Census, and the data loads in the map as <code>citypop.js</code>.</td><td>15</td></tr>
+                            <tr><td><b>Proportional symbols</b></td><td>The circles are sized by population and are easy to read at the starting zoom level. The popup shows the city name, the year, and the population.</td><td>5</td></tr>
+                            <tr><td><b>Time slider and play button</b></td><td>The slider moves from 1950 to 2020, and the label shows the year. <b>Play</b> steps through every year and stops at 2020. <b>Pause</b> stops the animation. Dragging the slider does not move the map.</td><td>10</td></tr>
+                            <tr><td><b>Colors and legend</b></td><td>The circle colors are changed from the sample. The legend circles match the map circles, and the legend title names what the map shows.</td><td>10</td></tr>
+                            <tr><td><b>Map design</b></td><td>The map opens on the contiguous U.S. The slider box and the legend do not cover any city.</td><td>5</td></tr>
+                            <tr><td><b>Publishing</b></td><td>The GitHub Pages URL works. The file is named <code>index.html</code>, and <code>citypop.js</code> is uploaded to the repository.</td><td>5</td></tr>
+                            <tr><td colspan="2"><b>Total</b></td><td><b>50</b></td></tr>
+                        </tbody>
+                    </table>
+                      <br>
+                 
                 </div></div>
 
 
           <footer>
             <div class="wrap">
 
-              <p>Copyright &copy; Ting Liu 2024</p>
+              <p>Copyright &copy; Ting Liu 2026</p>
             <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
             </div>
           </footer>
@@ -551,12 +611,12 @@ $.getJSON("https://raw.githubusercontent.com/neiugis/lab7_map/main/city.geojson"
                 // Copy the code text to the clipboard
                 navigator.clipboard.writeText(codeText).then(() => {
                     // Change the button text to "Copied!" on success
-                    button.innerHTML = ' <i class="fa-solid fa-check"></i> <strong>Copied!</strong>';
+                    button.innerHTML = ' <i class="fas fa-check"></i> <strong>Copied!</strong>';
                     button.style.backgroundColor = '#6cbf43'; // Green background for success
 
                     // Reset the button text and background color after 2 seconds
                     setTimeout(() => {
-                        button.innerHTML = '<i class="fa-regular fa-copy"></i> <strong>Copy code</strong>';
+                        button.innerHTML = '<i class="far fa-copy"></i> <strong>Copy code</strong>';
                         button.style.backgroundColor = '#566573'; // Reset to original color
                     }, 2000);
                 }).catch(err => {
