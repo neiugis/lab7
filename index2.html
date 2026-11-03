@@ -377,7 +377,7 @@ var info = processData(data);   // data is the variable defined in citypop.js
 createPropSymbols(info.timestamps, data);
 createSliderUI(info.timestamps);</code></pre></div></li>
                     <li><b>Test your map.</b> Save, refresh the browser, and drag the slider handle. Does anything else move?</li>
-                    <li>The whole map moves along with the handle. The mouse action on the slider also reaches the map underneath it, so the map is dragged too. To fix this, add the line below in <code>createSliderUI()</code>, right AFTER the line that creates the box (<code>var container = ...</code>):
+                    <li>The whole map moves along with the handle. The mouse action on the slider also reaches the map underneath it, so the map is dragged too. To fix this, add the line below in <code>function createSliderUI()</code>, right AFTER the line that creates the box (<code>var container = ...</code>):
 <div class="code-container">
                             <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
 <pre><code class="language-js">
