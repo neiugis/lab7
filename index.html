@@ -132,7 +132,7 @@
 
                   <p><a id="overview" title="Overview" class="toc-item"></a></p>
                   <h3><i class="fa fa-paint-brush"></i> Overview</h3>
-                  <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet. A time slider and a play button allow the map reader move through the years. This lab exercise is modified from <a href="https://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
+                  <p><i class="fa fa-spinner fa-spin"></i>  In this lab, we will create a time series proportional symbol map with Leaflet. A time slider and a play button allow the map reader to move through the years. This lab exercise is modified from <a href="https://www.cartographicperspectives.org/index.php/journal/article/view/cp76-donohue-et-al/1307" target="_blank">this tutorial</a>.</p>
                     <p><i class="fa fa-spinner fa-spin"></i>  The scripts contain a lot of function definitions and may be difficult to follow if you are trying to understand them line by line. I have provided comments as explanations. However, you may use the scripts as a template to map data with a similar structure. I am always happy to explain in more detail if you are interested in learning the syntax.</p>
                     <p><i class="fa fa-spinner fa-spin"></i>  Please read the instructions carefully (including the explanations of each step) and complete the assignment in the <a href="#deliverable">Deliverables</a> section at the bottom.</p>
 
@@ -368,7 +368,7 @@ function showTimestamp(timestamp) {
 .temporal-legend {
     font-weight: bold;
 }</code></pre></div></li>
-                    <li>Then, <b>add one line</b> to the function calls below the tile layer, to create the slider:
+                    <li>Then, <b>replace</b> the function calls below the tile layer with the lines below. Only the last line is new. It creates the slider. <b>Do not paste these lines under the old ones</b>, or the map will draw every circle twice:
 <div class="code-container">
                             <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
 <pre><code class="language-js">
@@ -442,7 +442,7 @@ function createPlayButton(timestamps) {
     padding: 4px 12px;
     cursor: pointer;
 }</code></pre></div></li>
-                  <li>Then, <b>add one line</b> to the function calls to create the button. It must come AFTER <code>createSliderUI()</code>, because the button is placed inside the slider box:
+                  <li>Then, <b>replace</b> the function calls with the lines below. Only the last line is new. It creates the button, and it must come AFTER <code>createSliderUI()</code>, because the button is placed inside the slider box:
 <div class="code-container">
                             <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
 <pre><code class="language-js">
@@ -540,7 +540,7 @@ function createLegend(min, max) {
     right: 8px;
 }</code></pre></div>
                         </li>
-                    <li>Then, <b>add one line</b> to the function calls to create the legend:
+                    <li>Then, <b>replace</b> the function calls with the lines below. Only the last line is new. It creates the legend:
 <div class="code-container">
                             <button class="copy-btn" title="Click to copy" onclick="copyToClipboard(this)"><i class="far fa-copy"></i> <b>Copy Code</b></button>
 <pre><code class="language-js">
@@ -562,7 +562,7 @@ createLegend(info.min, info.max);</code></pre></div></li>
                         <li>To add the 2020 data, open <code>citypop.csv</code> in <b>Excel</b> or <b>Google Sheets</b>. Add a new column named <code>2020</code> after the 2010 column, and enter the 2020 population of each city. <b>Type the numbers without commas</b> (for example, <code>2746388</code>, not <code>2,746,388</code>).</li>
                         <li>Save the table as a csv file again:
                             <ul>
-                                <li><b>Excel:</b> select <b>File &gt; Save As</b>, and choose <b>CSV UTF-8 (Comma delimited) (*.csv)</b> as the file type.</li>
+                                <li><b>Excel:</b> select <b>File &gt; Save As</b>, and choose <b>CSV (Comma delimited) (*.csv)</b> as the file type. Do not choose <b>CSV UTF-8</b>.</li>
                                 <li><b>Google Sheets:</b> select <b>File &gt; Download &gt; Comma Separated Values (.csv)</b>.</li>
                             </ul>
                         Then repeat the geojson.io and <code>var data = </code> steps to create a new <code>citypop.js</code>.</li>
